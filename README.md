@@ -3,6 +3,9 @@ Description
 This cookbook's goal is to provide the best and dead simple way to start new web application project.
 
 Containing following
+
+| Category | application |
+| ------- | ---------- |
 | HTTP Server | apache |
 | DB | mysql |
 | BTS | redmine |
@@ -22,12 +25,12 @@ Usage
 =====
 
 ## How to use in a recipe
-`
+```
 include_recipe "boilerplate"
-`
+```
 ## Configuration
 ### Clone git repository and install everything into example.com
-`
+```
 $ cat nodes/example.json
 {
     "boilerplate": {
@@ -44,28 +47,28 @@ $ cat nodes/example.json
         }
     }
 }
-`
+```
 
 ### Stop installing specific applicaiton
 e.g.) Stop installing jenkins
-`
+```
 $ cat nodes/example.json
 {
     "boilerplate": {
         "jenkins": false
     }
 }
-`
+```
 
 ### Set /vagrant as DocumentRoot for vagrant
-`
+```
 $ cat nodes/example.json
 {
     "boilerplate": {
         "document_root": "/vagrant"
     }
 }
-`
+```
 
 License and Authors
 ===================
