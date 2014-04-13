@@ -17,25 +17,35 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# %w( python-software-properties ).each do |pkg|
-#   package pkg do
-#     action [:install]
-#   end
-# end
-
-# include_recipe 'apt'
-
-packages = []
-case node.normal['platform']
+apt_command = 'apt-get'
+case node[:platform]
 when 'debian'
   package 'apt-spy'
 
   execute 'choose fastest mirror' do
-    command "apt-spy -s #{node.normal.boilerplate.country} -d stable"
+    command "apt-spy -s #{node.default.boilerplate.country} -d stable"
     not_if { ::File.exist?('/etc/apt/sources.list.d/apt-spy.list') }
   end
+when 'ubuntu'
+  execute 'choose fastest mirror' do
+    command "sed -i 's/us.archive/#{node.default.boilerplate.country}.archive/g' /etc/apt/sources.list"
+  end
 
-  # Add extra repos
+  # Add apt-fast
+  ppa 'apt-fast/stable'
+  package 'apt-fast'
+  package 'aria2'
+  apt_command = 'apt-fast'
+  template '/etc/apt-fast.conf' do
+    source 'apt-fast/apt-fast.conf.erb'
+    notifies :run, 'execute[apt-get update]', :immediately
+  end
+end
+
+# Add extra repos
+packages = []
+case node[:platform]
+when 'debian'
   apt_repository "emacs-#{node[:lsb][:codename]}" do
     uri 'http://emacs.naquadah.org/'
     components ['stable/']
@@ -44,30 +54,17 @@ when 'debian'
   end
   packages.push('emacs-snapshot')
 when 'ubuntu'
-  execute 'choose fastest mirror' do
-    command "sed -i 's/us.archive/#{node.normal.boilerplate.country}.archive/g' /etc/apt/sources.list"
-  end
-
-  # Add extra repos
-  execute 'add latest emacs repository' do
-    command 'add-apt-repository -y ppa:cassou/emacs; apt-get update'
-    not_if { ::File.exist?("/etc/apt/sources.list.d/cassou-emacs-#{node[:lsb][:codename]}.list") }
-  end
-
-  execute 'add latest nodejs repository' do
-    command 'add-apt-repository -y ppa:chris-lea/node.js; apt-get update'
-    not_if { ::File.exist?("/etc/apt/sources.list.d/chris-lea-node_js-#{node[:lsb][:codename]}.list") }
-  end
+  ppa 'cassou/emacs'
+  ppa 'chris-lea/node.js'
   packages.push('emacs24')
 end
 
-# Add extra repos
-apt_repository "jenkins-#{node[:lsb][:codename]}" do
-  uri 'http://pkg.jenkins-ci.org/debian'
-  components ['binary/']
-  key 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
-  not_if { ::File.exist?("/etc/apt/sources.list.d/jenkins-#{node[:lsb][:codename]}.list") }
-end
+# apt_repository "jenkins-#{node[:lsb][:codename]}" do
+#   uri 'http://pkg.jenkins-ci.org/debian'
+#   components ['binary/']
+#   key 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
+#   not_if { ::File.exist?("/etc/apt/sources.list.d/jenkins-#{node[:lsb][:codename]}.list") }
+# end
 
 # Install packages necessary for this project
 packages.concat(%w(
@@ -84,9 +81,6 @@ packages.concat(%w(
   vim
   iftop iotop iperf nethogs sysstat
 ))
-%w( jenkins ).each do |optional|
-  packages << optional if node.normal.boilerplate.key?(optional) && node.normal.boilerplate[optional] != false
-end
 
 dependencies = []
 packages.each do |pkg|
@@ -98,7 +92,7 @@ packages.each do |pkg|
 end
 
 execute 'apt-get install' do
-  command "export DEBIAN_FRONTEND=noninteractive && apt-get -q -y install #{dependencies.join(' ')}"
+  command "export DEBIAN_FRONTEND=noninteractive && #{apt_command} -q -y install #{dependencies.join(' ')}"
 end
 
 # packages.each do |pkg|
@@ -109,10 +103,20 @@ end
 # end
 
 # Clone existing project
-if node[:boilerplate].key?(:git)
-  execute "clone project into #{node[:boilerplate][:project_root]}" do
-    command "cd #{node[:boilerplate][:document_root]}; git clone #{node[:boilerplate][:git][:uri]}"
-    not_if { ::File.exist?(node[:boilerplate][:project_root]) }
+[:app, :docs].each do |repo|
+  if node[:boilerplate].key?(repo)
+    cmd = case node[:boilerplate][repo]
+          when 'git'
+            'git clone'
+          when 'svn'
+            'svn co'
+          else
+            'git clone'
+          end
+    execute "clone #{repo} into #{node[:boilerplate][:project_root]}" do
+      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
+      not_if { ::File.exist?("#{node.default[:boilerplate][:project_root]}/#{repo}") }
+    end
   end
 end
 
@@ -129,12 +133,45 @@ end
 %w( yui_compressor jslint closure_compiler ).each do |package|
   execute "juicer install #{package}" do
     command "juicer install #{package}"
+    only_if { ::File.exist?("#{node[:boilerplate][:project_root]}/Gemfile") }
     not_if { ::File.exist?("#{ENV['HOME']}/.juicer/lib/#{package}") }
   end
 end
 
 # execute 'install npm packages' do
 #   command 'npm -g install jshint grunt-cli gfms'
+# end
+
+## Setup redmine
+if node.default.boilerplate.key?(:redmine) && node.default.boilerplate[:redmine]
+  package 'redmine'
+  package 'libapache2-mod-passenger'
+  execute 'update alternative' do
+    command 'update-alternatives --set ruby /usr/bin/ruby1.9.1; update-alternatives --set gem /usr/bin/gem1.9.1;'
+  end
+end
+
+# ## Setup jenkins
+# if node.default.boilerplate.key?(:jenkins) && node.default.boilerplate[:jenkins]
+#   include_recipe 'jenkins::master'
+
+#   group 'jenkins' do
+#     action [:create, :modify]
+#     members 'jenkins'
+#     append true
+#   end
+
+#   template '/etc/default/jenkins' do
+#     source 'default/jenkins.erb'
+#     notifies :restart, 'service[jenkins]'
+#   end
+
+#   %w(
+#     credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
+#     ansicolor ruby-runtime vagrant
+#   ).each do |p|
+#     jenkins_plugin p
+#   end
 # end
 
 ## Setup apache
@@ -158,45 +195,22 @@ end
 end
 
 ## Setup mysql
-include_recipe 'mysql::client'
+include_recipe 'database::mysql'
 include_recipe 'mysql::server'
 
 mysql_connection_info = {
   :host => 'localhost',
   :username => 'root',
-  :password => node.normal['mysql']['server_root_password']
+  :password => node.default['mysql']['server_root_password']
 }
 
-mysql_database_user 'test' do
-  connection mysql_connection_info
-  password 'test'
-  action :grant
-end
+# mysql_database_user 'test' do
+#   connection mysql_connection_info
+#   password 'test'
+#   action :grant
+# end
 
 template '/etc/mysql/conf.d/my.cnf' do
   source 'mysql/my.cnf'
   notifies :restart, 'mysql_service[default]'
-end
-
-## Setup jenkins
-if node.normal.boilerplate.key?(:jenkins) && node.normal.boilerplate[:jenkins]
-  group 'jenkins' do
-    action [:create, :modify]
-    members 'jenkins'
-    append true
-  end
-
-  include_recipe 'jenkins::master'
-
-  template '/etc/default/jenkins' do
-    source 'default/jenkins.erb'
-    notifies :restart, 'service[jenkins]'
-  end
-
-  %w(
-    credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
-    ansicolor ruby-runtime vagrant
-  ).each do |p|
-    jenkins_plugin p
-  end
 end

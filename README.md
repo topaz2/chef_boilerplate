@@ -4,7 +4,7 @@ This cookbook's goal is to provide the best and dead simple way to start new web
 
 Containing following
 
-| Category | application |
+| Category | Application |
 | ------- | ---------- |
 | HTTP Server | apache |
 | DB | mysql |
@@ -16,7 +16,7 @@ Containing following
 
 Requirements
 ============
-* Chef: 11.x
+* Chef: 11.x+
 
 Attributes
 ==========
@@ -26,7 +26,7 @@ Usage
 
 ## How to use in a recipe
 ```
-include_recipe "boilerplate"
+include_recipe 'boilerplate'
 ```
 ## Configuration
 ### Clone git repository and install everything into example.com

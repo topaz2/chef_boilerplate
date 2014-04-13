@@ -1,5 +1,13 @@
 default[:boilerplate][:country] = 'us'
 default[:boilerplate][:document_root] = '/var/www'
+default[:boilerplate][:project] = {
+  :name => 'app'
+}
+default[:boilerplate][:app] = {
+  :host => 'localhost',
+  :port => '80',
+  :path => '/app'
+}
 default[:boilerplate][:redmine] = {
   :host => 'localhost',
   :port => '80',
