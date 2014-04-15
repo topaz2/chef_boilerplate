@@ -4,19 +4,19 @@ default[:boilerplate][:project] = {
   :name => 'app'
 }
 default[:boilerplate][:app] = {
-  :host => 'localhost',
+  :host => 'app.local',
   :port => '80',
-  :path => '/app'
+  :path => '/'
 }
 default[:boilerplate][:redmine] = {
-  :host => 'localhost',
+  :host => 'redmine.local',
   :port => '80',
-  :path => '/redmine'
+  :path => '/'
 }
 default[:boilerplate][:jenkins] = {
-  :host => 'localhost',
+  :host => 'jenkins.local',
   :port => '8080',
-  :path => '/jenkins'
+  :path => '/'
 }
 default[:boilerplate][:project_root] = node[:boilerplate][:document_root]
 default[:boilerplate][:docs_root] = "#{node[:boilerplate][:document_root]}/docs"
