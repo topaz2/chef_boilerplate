@@ -23,12 +23,12 @@ when 'debian'
   package 'apt-spy'
 
   execute 'choose fastest mirror' do
-    command "apt-spy -s #{node.default.boilerplate.country} -d stable"
+    command "apt-spy -s #{node[:boilerplate][:country]} -d stable"
     not_if { ::File.exist?('/etc/apt/sources.list.d/apt-spy.list') }
   end
 when 'ubuntu'
   execute 'choose fastest mirror' do
-    command "sed -i 's/us.archive/#{node.default.boilerplate.country}.archive/g' /etc/apt/sources.list"
+    command "sed -i 's/us.archive/#{node[:boilerplate][:country]}.archive/g' /etc/apt/sources.list"
   end
 
   # Add apt-fast
@@ -58,13 +58,6 @@ when 'ubuntu'
   ppa 'chris-lea/node.js'
   packages.push('emacs24')
 end
-
-# apt_repository "jenkins-#{node[:lsb][:codename]}" do
-#   uri 'http://pkg.jenkins-ci.org/debian'
-#   components ['binary/']
-#   key 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
-#   not_if { ::File.exist?("/etc/apt/sources.list.d/jenkins-#{node[:lsb][:codename]}.list") }
-# end
 
 # Install packages necessary for this project
 packages.concat(%w(
@@ -98,7 +91,7 @@ end
 # packages.each do |pkg|
 #   package pkg do
 #     action [:install, :upgrade]
-#     version node.default[:versions][pkg] if node.default[:versions][pkg].kind_of? String
+#     version node[:versions][pkg] if node[:versions][pkg].kind_of? String
 #   end
 # end
 
@@ -115,7 +108,7 @@ end
           end
     execute "clone #{repo} into #{node[:boilerplate][:project_root]}" do
       command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
-      not_if { ::File.exist?("#{node.default[:boilerplate][:project_root]}/#{repo}") }
+      not_if { ::File.exist?("#{node[:boilerplate][:project_root]}/#{repo}") }
     end
   end
 end
@@ -138,41 +131,47 @@ end
   end
 end
 
-# execute 'install npm packages' do
-#   command 'npm -g install jshint grunt-cli gfms'
-# end
+include_recipe 'nodejs::install_from_package'
+%w( jshint grunt-cli gfms ).each do |package|
+  node_npm package
+end
 
 ## Setup redmine
-if node.default.boilerplate.key?(:redmine) && node.default.boilerplate[:redmine]
+if node[:boilerplate].key?(:redmine) && node[:boilerplate][:redmine]
   package 'redmine'
   package 'libapache2-mod-passenger'
-  execute 'update alternative' do
+  execute 'set symlink' do
+    command 'ln -sf /usr/share/redmine/public /var/www/redmine'
+    not_if { ::File.exist?("#{node[:boilerplate][:docs_root]}/redmine") }
+  end
+  execute 'update alternatives' do
     command 'update-alternatives --set ruby /usr/bin/ruby1.9.1; update-alternatives --set gem /usr/bin/gem1.9.1;'
   end
 end
 
-# ## Setup jenkins
-# if node.default.boilerplate.key?(:jenkins) && node.default.boilerplate[:jenkins]
-#   include_recipe 'jenkins::master'
+## Setup jenkins
+if node[:boilerplate].key?(:jenkins) && node[:boilerplate][:jenkins]
+  package 'jenkins-cli'
+  include_recipe 'jenkins::master'
 
-#   group 'jenkins' do
-#     action [:create, :modify]
-#     members 'jenkins'
-#     append true
-#   end
+  group 'jenkins' do
+    action [:create, :modify]
+    members 'jenkins'
+    append true
+  end
 
-#   template '/etc/default/jenkins' do
-#     source 'default/jenkins.erb'
-#     notifies :restart, 'service[jenkins]'
-#   end
+  template '/etc/default/jenkins' do
+    source 'default/jenkins.erb'
+    notifies :restart, 'service[jenkins]'
+  end
 
-#   %w(
-#     credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
-#     ansicolor ruby-runtime vagrant
-#   ).each do |p|
-#     jenkins_plugin p
-#   end
-# end
+  %w(
+    credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
+    ansicolor ruby-runtime vagrant
+  ).each do |p|
+    jenkins_plugin p
+  end
+end
 
 ## Setup apache
 include_recipe 'apache2'
@@ -194,6 +193,11 @@ end
   end
 end
 
+template "#{node[:apache][:dir]}/conf.d/boilerplate" do
+  source 'apache2/boilerplate.erb'
+  notifies :restart, 'service[apache2]'
+end
+
 ## Setup mysql
 include_recipe 'database::mysql'
 include_recipe 'mysql::server'
@@ -201,14 +205,14 @@ include_recipe 'mysql::server'
 mysql_connection_info = {
   :host => 'localhost',
   :username => 'root',
-  :password => node.default['mysql']['server_root_password']
+  :password => node[:mysql][:server_root_password]
 }
 
-# mysql_database_user 'test' do
-#   connection mysql_connection_info
-#   password 'test'
-#   action :grant
-# end
+mysql_database_user 'test' do
+  connection mysql_connection_info
+  password 'test'
+  action :grant
+end
 
 template '/etc/mysql/conf.d/my.cnf' do
   source 'mysql/my.cnf'
