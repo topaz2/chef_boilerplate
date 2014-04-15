@@ -45,7 +45,7 @@ HTTP_PORT=8080
 AJP_PORT=-1
 
 # servlet context, important if you want to use apache proxying
-PREFIX=/jenkins
+PREFIX=<%= node[:boilerplate][:jenkins][:path] %>
 
 # arguments to pass to jenkins.
 # --javahome=$JAVA_HOME
