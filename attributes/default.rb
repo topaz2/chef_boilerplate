@@ -18,11 +18,5 @@ default[:boilerplate][:jenkins] = {
   :port => '8080',
   :path => '/'
 }
-default[:boilerplate][:project_root] = node[:boilerplate][:document_root]
+default[:boilerplate][:app_root] = "#{node[:boilerplate][:document_root]}/app"
 default[:boilerplate][:docs_root] = "#{node[:boilerplate][:document_root]}/docs"
-if node[:boilerplate].key?(:git)
-  default[:boilerplate][:project_root] = [
-    node[:boilerplate][:document_root],
-    node[:boilerplate][:git][:uri].gsub(/.*\/([\w]+)$/, '\1')
-  ].join('/')
-end

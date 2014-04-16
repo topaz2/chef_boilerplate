@@ -106,9 +106,9 @@ end
           else
             'git clone'
           end
-    execute "clone #{repo} into #{node[:boilerplate][:project_root]}" do
+    execute "clone #{repo} into #{node[:boilerplate][:document_root]}/#{repo}" do
       command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
-      not_if { ::File.exist?("#{node[:boilerplate][:project_root]}/#{repo}") }
+      not_if { ::File.exist?("#{node[:boilerplate][:document_root]}/#{repo}") }
     end
   end
 end
@@ -119,14 +119,14 @@ execute 'install bundler' do
 end
 
 execute 'install gem packages' do
-  command "cd #{node[:boilerplate][:project_root]}; bundle"
-  only_if { ::File.exist?("#{node[:boilerplate][:project_root]}/Gemfile") }
+  command "cd #{node[:boilerplate][:app_root]}; bundle"
+  only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
 end
 
 %w( yui_compressor jslint closure_compiler ).each do |package|
   execute "juicer install #{package}" do
     command "juicer install #{package}"
-    only_if { ::File.exist?("#{node[:boilerplate][:project_root]}/Gemfile") }
+    only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
     not_if { ::File.exist?("#{ENV['HOME']}/.juicer/lib/#{package}") }
   end
 end
@@ -182,7 +182,7 @@ include_recipe 'apache2'
   end
 end
 
-%w( jenkins redmine ).each do |site|
+%w( app jenkins redmine ).each do |site|
   next unless node[:boilerplate][site]
   template "#{node[:apache][:dir]}/sites-available/#{site}" do
     source "apache2/#{site}.erb"
