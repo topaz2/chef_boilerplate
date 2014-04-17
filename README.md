@@ -1,6 +1,6 @@
 Description
 ===========
-This cookbook's goal is to provide the best and dead simple way to start new web application project.
+This cookbook's goal is to provide the best and dead simple way to start new web application project. It provides basic applications no matter what language you use.
 
 Containing following
 
@@ -13,6 +13,10 @@ Containing following
 | VCS | git, subversion |
 | Editor | emacs, vim |
 | Utils | guard, jasmine, juicer, etc... |
+
+Following cookbooks are language specific boilerplates.
+
+* https://github.com/topaz2/chef_boilerplate_php
 
 Requirements
 ============
