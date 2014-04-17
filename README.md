@@ -25,7 +25,7 @@ Default Settings
 | Application | URL | ID : PASS |
 | ----------- | --- | --------- |
 | gitlab | http://gitlab.local:8081/ | admin@local.host : 5iveL!fe |
-| jenkins | http://jenkins.local/ | - |
+| jenkins | http://jenkins.local:9090/ | - |
 
 Attributes
 ==========
