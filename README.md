@@ -5,10 +5,10 @@ This cookbook's goal is to provide the best and dead simple way to start new web
 Containing following
 
 | Category | Application |
-| ------- | ---------- |
+| -------- | ----------- |
 | HTTP Server | apache |
 | DB | mysql |
-| BTS | redmine |
+| BTS | gitlab (default), redmine |
 | CI | jenkins |
 | VCS | git, subversion |
 | Editor | emacs, vim |
@@ -17,6 +17,15 @@ Containing following
 Requirements
 ============
 * Chef: 11.x+
+* Ruby: 1.9+
+
+Default URL
+============
+
+| Application | URL |
+| ----------- | ----------- |
+| gitlab | http://gitlab.local:8081/ |
+| jenkins | http://jenkins.local/ |
 
 Attributes
 ==========
@@ -29,22 +38,32 @@ Usage
 include_recipe 'boilerplate'
 ```
 ## Configuration
-### Clone git repository and install everything into example.com
+### Clone git repository and install jenkins, redmine into example.com
 ```
 $ cat nodes/example.json
 {
     "boilerplate": {
-        "git": {
+        "country": "jp",
+        "app": {
+            "type": "git",
             "uri": "https://github.com/your/repo"
         },
         "redmine": {
-            "host": "example.com",
-            "path": "/redmine"
+            "host": "example.com"
         },
         "jenkins": {
-            "host": "example.com",
-            "path": "/jenkins"
+            "host": "example.com"
         }
+    }
+}
+```
+
+### Choose fastest package mirror from jp (Default: us)
+```
+$ cat nodes/example.json
+{
+    "boilerplate": {
+        "country": "jp"
     }
 }
 ```

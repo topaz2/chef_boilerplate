@@ -131,7 +131,8 @@ end
   end
 end
 
-include_recipe 'nodejs::install_from_package'
+# include_recipe 'nodejs::install_from_package'
+include_recipe 'nodejs::install_from_binary'
 %w( jshint grunt-cli gfms ).each do |package|
   node_npm package
 end
@@ -151,7 +152,6 @@ end
 
 ## Setup jenkins
 if node[:boilerplate].key?(:jenkins) && node[:boilerplate][:jenkins]
-  package 'jenkins-cli'
   include_recipe 'jenkins::master'
 
   group 'jenkins' do
@@ -217,4 +217,13 @@ end
 template '/etc/mysql/conf.d/my.cnf' do
   source 'mysql/my.cnf'
   notifies :restart, 'mysql_service[default]'
+end
+
+## Setup gitlab
+if node[:gitlab]
+  # Workaround for the issue default site port can't be changed
+  # @see https://github.com/opscode-cookbooks/nginx/pull/201
+  node.default[:nginx][:default_site_enabled] = false
+  node.default[:gitlab][:listen_port] = node[:boilerplate][:gitlab][:port]
+  include_recipe 'gitlab'
 end
