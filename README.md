@@ -19,13 +19,13 @@ Requirements
 * Chef: 11.x+
 * Ruby: 1.9+
 
-Default URL
-============
+Default Settings
+================
 
-| Application | URL |
-| ----------- | ----------- |
-| gitlab | http://gitlab.local:8081/ |
-| jenkins | http://jenkins.local/ |
+| Application | URL | ID : PASS |
+| ----------- | --- | --------- |
+| gitlab | http://gitlab.local:8081/ | admin@local.host : 5iveL!fe |
+| jenkins | http://jenkins.local/ | - |
 
 Attributes
 ==========
