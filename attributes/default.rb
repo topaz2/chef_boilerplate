@@ -1,7 +1,7 @@
 default[:boilerplate][:country] = 'us'
 default[:boilerplate][:document_root] = '/var/www'
 default[:boilerplate][:git] = {
-  :use_git_procotol = true
+  :use_git_procotol => true
 }
 default[:boilerplate][:project] = {
   :name => 'app'
