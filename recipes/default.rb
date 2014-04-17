@@ -132,15 +132,26 @@ end
 end
 
 include_recipe 'nodejs::install_from_package'
-%w( jshint grunt-cli gfms ).each do |package|
+%w( jshint grunt-cli gfms bower ).each do |package|
   node_npm package
+end
+
+# Change Git protocol
+execute 'change git protocol' do
+  command 'git config --global url.\'https://\'.insteadOf git://'
+end if node[:boilerplate][:git][:use_git_protocol] == false
+
+# Install Bower packages
+execute 'install bower packages' do
+  command 'bower install --allow-root'
+  cwd node[:boilerplate][:app_root]
 end
 
 ## Setup redmine
 if node[:boilerplate].key?(:redmine) && node[:boilerplate][:redmine]
   package 'redmine'
   package 'libapache2-mod-passenger'
-  execute 'set symlink' do
+  execute 'ln -sf /usr/share/redmine/public /var/www/redmine' do
     command 'ln -sf /usr/share/redmine/public /var/www/redmine'
     not_if { ::File.exist?("#{node[:boilerplate][:docs_root]}/redmine") }
   end
