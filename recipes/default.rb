@@ -106,9 +106,14 @@ end
           else
             'git clone'
           end
-    execute "clone #{repo} into #{node[:boilerplate][:document_root]}/#{repo}" do
+    dest = "#{node[:boilerplate][:document_root]}/#{repo}"
+    execute "clone #{repo} into #{dest}" do
       command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
-      not_if { ::File.exist?("#{node[:boilerplate][:document_root]}/#{repo}") }
+      not_if { ::File.exist?("#{dest}") }
+    end
+    directory dest do
+      owner 'www-data'
+      group 'www-data'
     end
   end
 end
@@ -243,7 +248,7 @@ template '/etc/mysql/conf.d/my.cnf' do
 end
 
 ## Setup gitlab
-if node[:gitlab]
+if node[:boilerplate][:gitlab]
   # Workaround for the issue default site port can't be changed
   # @see https://github.com/opscode-cookbooks/nginx/pull/201
   node.default[:nginx][:default_site_enabled] = false
