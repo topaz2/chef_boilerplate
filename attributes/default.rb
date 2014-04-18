@@ -11,11 +11,12 @@ default[:boilerplate][:app] = {
   :port => '80',
   :path => '/'
 }
-default[:boilerplate][:redmine] = {
-  :host => 'redmine.local',
-  :port => '80',
+default[:boilerplate][:gitlab] = {
+  :host => 'gitlab.local',
+  :port => '8081',
   :path => '/'
 }
+default[:boilerplate][:redmine] = false
 default[:boilerplate][:jenkins] = {
   :host => 'jenkins.local',
   :port => '8080',

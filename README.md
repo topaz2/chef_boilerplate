@@ -1,22 +1,35 @@
 Description
 ===========
-This cookbook's goal is to provide the best and dead simple way to start new web application project.
+This cookbook's goal is to provide the best and dead simple way to start new web application project. It provides basic applications no matter what language you use.
 
 Containing following
 
 | Category | Application |
-| ------- | ---------- |
+| -------- | ----------- |
 | HTTP Server | apache |
 | DB | mysql |
-| BTS | redmine |
+| BTS | gitlab (default), redmine |
 | CI | jenkins |
 | VCS | git, subversion |
 | Editor | emacs, vim |
 | Utils | guard, jasmine, juicer, etc... |
 
+Following cookbooks are language specific boilerplates.
+
+* https://github.com/topaz2/chef_boilerplate_php
+
 Requirements
 ============
 * Chef: 11.x+
+* Ruby: 1.9+
+
+Default Settings
+================
+
+| Application | URL | ID : PASS |
+| ----------- | --- | --------- |
+| gitlab | http://gitlab.local:8081/ | admin@local.host : 5iveL!fe |
+| jenkins | http://jenkins.local:9090/ | - |
 
 Attributes
 ==========
@@ -29,22 +42,32 @@ Usage
 include_recipe 'boilerplate'
 ```
 ## Configuration
-### Clone git repository and install everything into example.com
+### Clone git repository and install jenkins, redmine into example.com
 ```
 $ cat nodes/example.json
 {
     "boilerplate": {
-        "git": {
+        "country": "jp",
+        "app": {
+            "type": "git",
             "uri": "https://github.com/your/repo"
         },
         "redmine": {
-            "host": "example.com",
-            "path": "/redmine"
+            "host": "example.com"
         },
         "jenkins": {
-            "host": "example.com",
-            "path": "/jenkins"
+            "host": "example.com"
         }
+    }
+}
+```
+
+### Choose fastest package mirror from jp (Default: us)
+```
+$ cat nodes/example.json
+{
+    "boilerplate": {
+        "country": "jp"
     }
 }
 ```
