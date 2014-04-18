@@ -98,7 +98,7 @@ end
 # Clone existing project
 [:app, :docs].each do |repo|
   if node[:boilerplate].key?(repo)
-    cmd = case node[:boilerplate][repo]
+    cmd = case node[:boilerplate][repo][:type]
           when 'git'
             'git clone'
           when 'svn'
