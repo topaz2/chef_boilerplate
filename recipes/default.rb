@@ -114,6 +114,7 @@ end
     directory dest do
       owner 'www-data'
       group 'www-data'
+      recursive true
     end
   end
 end
