@@ -113,7 +113,7 @@ end
   end
 end
 
-# Install packages
+# Install gem packages
 execute 'install bundler' do
   command 'gem i bundler'
 end
@@ -131,17 +131,30 @@ end
   end
 end
 
-include_recipe 'nodejs::install_from_package'
-%w( jshint grunt-cli gfms bower ).each do |package|
-  node_npm package
+# Install npm packages
+case node[:platform]
+when 'ubuntu'
+  package 'nodejs'
+  execute 'install npm packages' do
+    command 'npm -g install jshint grunt-cli gfms bower'
+  end
+else
+  include_recipe 'node'
+  include_recipe 'nodejs::install_from_binary'
+  %w( jshint grunt-cli gfms bower ).each do |package|
+    node_npm package do
+      action :install
+    end
+  end
 end
 
-# Change Git protocol
+# Change git protocol
 execute 'change git protocol' do
   command 'git config --global url.\'https://\'.insteadOf git://'
-end if node[:boilerplate][:git][:use_git_protocol] == false
+  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
+end
 
-# Install Bower packages
+# Install bower packages
 execute 'install bower packages' do
   command 'bower install --allow-root'
   cwd node[:boilerplate][:app_root]
@@ -228,4 +241,14 @@ end
 template '/etc/mysql/conf.d/my.cnf' do
   source 'mysql/my.cnf'
   notifies :restart, 'mysql_service[default]'
+end
+
+# Add additional permissions for vagrant
+%w( www-data ).each do |group|
+  group group do
+    action :modify
+    members 'vagrant'
+    append true
+    only_if 'grep vagrant /etc/passwd'
+  end
 end
