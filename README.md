@@ -83,7 +83,7 @@ $ cat nodes/example.json
 }
 ```
 
-### Set /vagrant as DocumentRoot for vagrant
+### Set /vagrant as DocumentRoot
 ```
 $ cat nodes/example.json
 {
