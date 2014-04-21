@@ -109,7 +109,7 @@ end
     dest = "#{node[:boilerplate][:document_root]}/#{repo}"
     execute "clone #{repo} into #{dest}" do
       command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
-      not_if { ::File.exist?("#{dest}") }
+      not_if { ::File.exist?(dest) }
     end
     directory dest do
       owner 'www-data'
