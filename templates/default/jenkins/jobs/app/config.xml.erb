@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<matrix-project>
+  <actions/>
+  <description>&lt;a href=&apos;ws/build/pdepend/overview-pyramid.svg&apos;&gt;&lt;img src=&quot;ws/build/pdepend/overview-pyramid.svg&quot; type=&quot;image/svg+xml&quot; /&gt;&lt;/a&gt;&#xd;
+&lt;a href=&apos;ws/build/pdepend/dependencies.svg&apos;&gt;&lt;img src=&quot;ws/build/pdepend/dependencies.svg&quot; type=&quot;image/svg+xml&quot; /&gt;&lt;/a&gt;</description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.1">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url><%= node[:boilerplate][:app][:repo][:uri] %></url>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/master</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers>
+    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.8">
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+    <org.jenkinsci.plugins.ghprb.GhprbTrigger plugin="ghprb@1.11.2">
+      <spec>*/5 * * * *</spec>
+      <adminlist></adminlist>
+      <whitelist></whitelist>
+      <orgslist></orgslist>
+      <cron>*/5 * * * *</cron>
+      <triggerPhrase></triggerPhrase>
+      <onlyTriggerPhrase>false</onlyTriggerPhrase>
+      <useGitHubHooks>true</useGitHubHooks>
+      <permitAll>false</permitAll>
+      <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
+      <whiteListTargetBranches>
+        <org.jenkinsci.plugins.ghprb.GhprbBranch>
+          <branch></branch>
+        </org.jenkinsci.plugins.ghprb.GhprbBranch>
+      </whiteListTargetBranches>
+    </org.jenkinsci.plugins.ghprb.GhprbTrigger>
+    <hudson.triggers.SCMTrigger>
+      <spec>H/5 * * * *</spec>
+      <ignorePostCommitHooks>false</ignorePostCommitHooks>
+    </hudson.triggers.SCMTrigger>
+  </triggers>
+  <concurrentBuild>true</concurrentBuild>
+  <axes>
+    <hudson.matrix.TextAxis>
+      <name>DB</name>
+      <values>
+        <string>postgresql</string>
+        <string>mysql</string>
+      </values>
+    </hudson.matrix.TextAxis>
+    <hudson.matrix.TextAxis>
+      <name>PHP</name>
+      <values>
+        <string>5.3</string>
+      </values>
+    </hudson.matrix.TextAxis>
+  </axes>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>tools/build/app/cakephp/pre.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Ant plugin="ant@1.2">
+      <targets>build-parallel</targets>
+    </hudson.tasks.Ant>
+    <hudson.tasks.Shell>
+      <command>tools/build/app/cakephp/post.sh</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers>
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.3.1">
+      <colorMapName>xterm</colorMapName>
+    </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+  </buildWrappers>
+  <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
+    <runSequentially>false</runSequentially>
+  </executionStrategy>
+</matrix-project>
