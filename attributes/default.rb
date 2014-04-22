@@ -7,7 +7,20 @@ default[:boilerplate][:project] = {
   :name => 'app'
 }
 default[:boilerplate][:app] = {
+  :repo => {
+    :type => 'git',
+    :uri => nil
+  },
   :host => 'app.local',
+  :port => '80',
+  :path => '/'
+}
+default[:boilerplate][:docs] = {
+  :repo => {
+    :type => 'git',
+    :uri => nil
+  },
+  :host => 'docs.local',
   :port => '80',
   :path => '/'
 }

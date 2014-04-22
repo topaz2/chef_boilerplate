@@ -96,9 +96,9 @@ end
 # end
 
 # Clone existing project
-[:app, :docs].each do |repo|
-  if node[:boilerplate].key?(repo)
-    cmd = case node[:boilerplate][repo][:type]
+[:app, :docs].each do |type|
+  if node[:boilerplate][type][:repo].key?(:uri)
+    cmd = case node[:boilerplate][type][:repo][:type]
           when 'git'
             'git clone'
           when 'svn'
@@ -106,9 +106,9 @@ end
           else
             'git clone'
           end
-    dest = "#{node[:boilerplate][:document_root]}/#{repo}"
-    execute "clone #{repo} into #{dest}" do
-      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
+    dest = "#{node[:boilerplate][:document_root]}/#{type}"
+    execute "clone #{type} into #{dest}" do
+      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
       not_if { ::File.exist?(dest) }
     end
     directory dest do
@@ -265,4 +265,9 @@ end
     append true
     only_if 'grep vagrant /etc/passwd'
   end
+end
+
+# Add build tools
+remote_directory "#{node[:boilerplate][:app_root]}/tools/build" do
+  source 'tools/build'
 end
