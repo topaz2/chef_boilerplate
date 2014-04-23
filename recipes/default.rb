@@ -194,6 +194,33 @@ if node[:boilerplate].key?(:jenkins) && node[:boilerplate][:jenkins]
     notifies :restart, 'service[jenkins]'
   end
 
+  %w( app vagrant deploy_app ).each do |job|
+    xml = File.join(Chef::Config[:file_cache_path], "jenkins-jobs-#{job}-config.xml")
+    template xml do
+      source "jenkins/jobs/#{job}/config.xml.erb"
+    end
+
+    # Init jobs for the first time
+    jenkins_job job do
+      config xml
+      not_if { ::File.exist?("#{node[:jenkins][:master][:home]}/jobs/#{job}/config.xml") }
+    end
+
+    template "#{node[:jenkins][:master][:home]}/jobs/#{job}/config.xml" do
+      source "jenkins/jobs/#{job}/config.xml.erb"
+    end
+  end
+
+  template "#{node[:jenkins][:master][:home]}/config.xml" do
+    source 'jenkins/config.xml.erb'
+    notifies :restart, 'service[jenkins]'
+  end
+
+  template "#{node[:jenkins][:master][:home]}/jenkins.model.JenkinsLocationConfiguration.xml" do
+    source 'jenkins/jenkins.model.JenkinsLocationConfiguration.xml.erb'
+    notifies :restart, 'service[jenkins]'
+  end
+
   %w(
     credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
     ansicolor ruby-runtime vagrant
@@ -267,7 +294,3 @@ end
   end
 end
 
-# Add build tools
-remote_directory "#{node[:boilerplate][:app_root]}/tools/build" do
-  source 'tools/build'
-end

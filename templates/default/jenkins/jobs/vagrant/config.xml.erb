@@ -64,7 +64,17 @@
       <command>tools/build/vagrant/pre.sh</command>
     </hudson.tasks.Shell>
   </builders>
+  <% if node[:boilerplate][:jenkins][:mail][:recipients] %>
+  <publishers>
+    <hudson.tasks.Mailer plugin="mailer@1.8">
+      <recipients><%= node[:boilerplate][:jenkins][:mail][:recipients] %></recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>true</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
+  <% else %>
   <publishers/>
+  <% end %>
   <buildWrappers>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.3.1">
       <colorMapName>xterm</colorMapName>
