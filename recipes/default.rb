@@ -96,9 +96,9 @@ end
 # end
 
 # Clone existing project
-[:app, :docs].each do |repo|
-  if node[:boilerplate].key?(repo)
-    cmd = case node[:boilerplate][repo][:type]
+[:app, :docs].each do |type|
+  if node[:boilerplate][type][:repo].key?(:uri)
+    cmd = case node[:boilerplate][type][:repo][:type]
           when 'git'
             'git clone'
           when 'svn'
@@ -106,10 +106,10 @@ end
           else
             'git clone'
           end
-    dest = "#{node[:boilerplate][:document_root]}/#{repo}"
-    execute "clone #{repo} into #{dest}" do
-      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][repo][:uri]} #{repo}"
-      not_if { ::File.exist?("#{dest}") }
+    dest = "#{node[:boilerplate][:document_root]}/#{type}"
+    execute "clone #{type} into #{dest}" do
+      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
+      not_if { ::File.exist?(dest) }
     end
     directory dest do
       owner 'www-data'
@@ -191,6 +191,33 @@ if node[:boilerplate].key?(:jenkins) && node[:boilerplate][:jenkins]
 
   template '/etc/default/jenkins' do
     source 'default/jenkins.erb'
+    notifies :restart, 'service[jenkins]'
+  end
+
+  %w( app vagrant deploy_app ).each do |job|
+    xml = File.join(Chef::Config[:file_cache_path], "jenkins-jobs-#{job}-config.xml")
+    template xml do
+      source "jenkins/jobs/#{job}/config.xml.erb"
+    end
+
+    # Init jobs for the first time
+    jenkins_job job do
+      config xml
+      not_if { ::File.exist?("#{node[:jenkins][:master][:home]}/jobs/#{job}/config.xml") }
+    end
+
+    template "#{node[:jenkins][:master][:home]}/jobs/#{job}/config.xml" do
+      source "jenkins/jobs/#{job}/config.xml.erb"
+    end
+  end
+
+  template "#{node[:jenkins][:master][:home]}/config.xml" do
+    source 'jenkins/config.xml.erb'
+    notifies :restart, 'service[jenkins]'
+  end
+
+  template "#{node[:jenkins][:master][:home]}/jenkins.model.JenkinsLocationConfiguration.xml" do
+    source 'jenkins/jenkins.model.JenkinsLocationConfiguration.xml.erb'
     notifies :restart, 'service[jenkins]'
   end
 
