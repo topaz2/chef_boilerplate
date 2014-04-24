@@ -5,9 +5,14 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-5.10
+  - name: ubuntu-12.04
+  - name: debian-wheezy-7
+    driver_config:
+      box: debian-wheezy-7
+      box_url: https://dl.dropboxusercontent.com/u/86066173/debian-wheezy.box
+  # - name: centos-5.10
 
 suites:
-  - name: master
+  - name: boilerplate
     run_list:
-      - recipe[mysql::master]
+      - recipe[boilerplate]
