@@ -1,6 +1,12 @@
 Description
 ===========
-This cookbook's goal is to provide the best and dead simple way to start new web application project. It provides basic applications no matter what language you use.
+This cookbook's goal is to provide the best and dead simple way to start new web application project. Provides basic applications no matter what language you use.
+
+[![Build Status](https://travis-ci.org/topaz2/chef_boilerplate.png?branch=master)](https://travis-ci.org/topaz2/chef_boilerplate)
+[![Dependency Status](https://gemnasium.com/topaz2/chef_boilerplate.png)](https://gemnasium.com/topaz2/chef_boilerplate)
+[![Code Climate](https://codeclimate.com/github/topaz2/chef_boilerplate.png)](https://codeclimate.com/github/topaz2/chef_boilerplate)
+[![Coverage Status](https://coveralls.io/repos/topaz2/chef_boilerplate/badge.png?branch=master)](https://coveralls.io/r/topaz2/chef_boilerplate)
+[![Inline docs](http://inch-pages.github.io/github/topaz2/chef_boilerplate.png)](http://inch-pages.github.io/github/topaz2/chef_boilerplate)
 
 Containing following
 
