@@ -6,7 +6,6 @@ This cookbook's goal is to provide the best and dead simple way to start new web
 [![Dependency Status](https://gemnasium.com/topaz2/chef_boilerplate.png)](https://gemnasium.com/topaz2/chef_boilerplate)
 [![Code Climate](https://codeclimate.com/github/topaz2/chef_boilerplate.png)](https://codeclimate.com/github/topaz2/chef_boilerplate)
 [![Coverage Status](https://coveralls.io/repos/topaz2/chef_boilerplate/badge.png?branch=master)](https://coveralls.io/r/topaz2/chef_boilerplate)
-[![Inline docs](http://inch-pages.github.io/github/topaz2/chef_boilerplate.png)](http://inch-pages.github.io/github/topaz2/chef_boilerplate)
 
 Containing following
 
