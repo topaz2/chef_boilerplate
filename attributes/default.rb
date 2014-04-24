@@ -38,7 +38,7 @@ default[:boilerplate][:jenkins] = {
   :host => 'jenkins.local',
   :port => '8080',
   :path => '/',
-  :mail => { 
+  :mail => {
     :recipients => nil
   }
 }

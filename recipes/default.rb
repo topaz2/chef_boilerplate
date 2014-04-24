@@ -293,4 +293,3 @@ end
     only_if 'grep vagrant /etc/passwd'
   end
 end
-
