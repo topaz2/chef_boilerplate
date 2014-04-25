@@ -11,6 +11,7 @@ end
 group :unit do
   gem 'berkshelf'
   gem 'chefspec'
+  gem 'knife-spec'
 end
 
 group :kitchen_common do

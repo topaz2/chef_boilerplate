@@ -111,6 +111,8 @@ GEM
     json (1.7.7)
     kitchen-vagrant (0.14.0)
       test-kitchen (~> 1.0)
+    knife-spec (1.0.0)
+      chef
     listen (1.3.1)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -265,6 +267,7 @@ DEPENDENCIES
   guard-rspec
   guard-rubocop
   kitchen-vagrant
+  knife-spec
   pry-nav
   rainbow
   rake
