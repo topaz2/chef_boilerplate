@@ -97,7 +97,7 @@ end
 
 # Clone existing project
 [:app, :docs].each do |type|
-  if node[:boilerplate][type][:repo].key?(:uri)
+  if node[:boilerplate][type][:repo][:uri]
     cmd = case node[:boilerplate][type][:repo][:type]
           when 'git'
             'git clone'
@@ -164,10 +164,11 @@ end
 execute 'install bower packages' do
   command 'bower install --allow-root'
   cwd node[:boilerplate][:app_root]
+  only_if { ::File.exist?(node[:boilerplate][:app_root]) }
 end
 
 ## Setup redmine
-if node[:boilerplate].key?(:redmine) && node[:boilerplate][:redmine]
+if node[:boilerplate][:redmine]
   package 'redmine'
   package 'libapache2-mod-passenger'
   execute 'ln -sf /usr/share/redmine/public /var/www/redmine' do
@@ -180,7 +181,7 @@ if node[:boilerplate].key?(:redmine) && node[:boilerplate][:redmine]
 end
 
 ## Setup jenkins
-if node[:boilerplate].key?(:jenkins) && node[:boilerplate][:jenkins]
+if node[:boilerplate][:jenkins]
   include_recipe 'jenkins::master'
 
   group 'jenkins' do
