@@ -48,7 +48,7 @@ include_recipe 'boilerplate'
 ```
 ## Configuration
 ### Clone git repository and install gitlab, jenkins into example.com
-nodes/example.json
+* nodes/example.json
 ```json
 {
     "boilerplate": {
