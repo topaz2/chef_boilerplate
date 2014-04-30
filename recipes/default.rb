@@ -195,7 +195,7 @@ if node[:boilerplate][:jenkins]
     notifies :restart, 'service[jenkins]'
   end
 
-  %w( app vagrant deploy_app ).each do |job|
+  %w( staging_app_build staging_app_deploy staging_app_vagrant ).each do |job|
     xml = File.join(Chef::Config[:file_cache_path], "jenkins-jobs-#{job}-config.xml")
     template xml do
       source "jenkins/jobs/#{job}/config.xml.erb"
@@ -224,7 +224,7 @@ if node[:boilerplate][:jenkins]
 
   %w(
     credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
-    ansicolor ruby-runtime vagrant
+    ansicolor build-pipeline-plugin
   ).each do |p|
     jenkins_plugin p
   end
