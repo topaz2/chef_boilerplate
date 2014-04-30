@@ -48,8 +48,8 @@ include_recipe 'boilerplate'
 ```
 ## Configuration
 ### Clone git repository and install gitlab, jenkins into example.com
-```json
-// nodes/example.json
+```sh
+$ cat nodes/example.json
 {
     "boilerplate": {
         "country": "jp",
@@ -70,8 +70,8 @@ include_recipe 'boilerplate'
 ```
 
 ### Choose fastest package mirror from jp (Default: us)
-```json
-// cat nodes/example.json
+```sh
+$ cat nodes/example.json
 {
     "boilerplate": {
         "country": "jp"
