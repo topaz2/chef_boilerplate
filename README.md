@@ -48,8 +48,9 @@ include_recipe 'boilerplate'
 ```
 ## Configuration
 ### Clone git repository and install gitlab, jenkins into example.com
-* nodes/example.json
-```json
+
+```sh
+$ cat nodes/example.json
 {
     "boilerplate": {
         "country": "jp",
@@ -81,7 +82,7 @@ $ cat nodes/example.json
 
 ### Stop installing specific applicaiton
 e.g.) Stop installing jenkins
-```json
+```sh
 $ cat nodes/example.json
 {
     "boilerplate": {
@@ -91,7 +92,7 @@ $ cat nodes/example.json
 ```
 
 ### Set /vagrant as DocumentRoot
-```json
+```sh
 $ cat nodes/example.json
 {
     "boilerplate": {
