@@ -69,7 +69,7 @@
     <hudson.tasks.Mailer plugin="mailer@1.8">
       <recipients><%= node[:boilerplate][:jenkins][:mail][:recipients] %></recipients>
       <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
-      <sendToIndividuals>true</sendToIndividuals>
+      <sendToIndividuals>false</sendToIndividuals>
     </hudson.tasks.Mailer>
   </publishers>
   <% else %>
