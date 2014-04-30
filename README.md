@@ -47,17 +47,19 @@ Usage
 include_recipe 'boilerplate'
 ```
 ## Configuration
-### Clone git repository and install jenkins, redmine into example.com
-```
+### Clone git repository and install gitlab, jenkins into example.com
+```json
 $ cat nodes/example.json
 {
     "boilerplate": {
         "country": "jp",
         "app": {
-            "type": "git",
-            "uri": "https://github.com/your/repo"
+            "repo": {
+                "type": "git",
+                "uri": "https://github.com/your/repo"
+            }
         },
-        "redmine": {
+        "gitlab": {
             "host": "example.com"
         },
         "jenkins": {
@@ -68,7 +70,7 @@ $ cat nodes/example.json
 ```
 
 ### Choose fastest package mirror from jp (Default: us)
-```
+```json
 $ cat nodes/example.json
 {
     "boilerplate": {
@@ -79,7 +81,7 @@ $ cat nodes/example.json
 
 ### Stop installing specific applicaiton
 e.g.) Stop installing jenkins
-```
+```json
 $ cat nodes/example.json
 {
     "boilerplate": {
@@ -89,7 +91,7 @@ $ cat nodes/example.json
 ```
 
 ### Set /vagrant as DocumentRoot
-```
+```json
 $ cat nodes/example.json
 {
     "boilerplate": {
