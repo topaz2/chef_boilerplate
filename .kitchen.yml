@@ -12,8 +12,7 @@ platforms:
   - name: debian-wheezy-7
     driver_config:
       box: debian-wheezy-7
-      box_url: https://dl.dropboxusercontent.com/u/86066173/debian-wheezy.box
-  # - name: centos-5.10
+      box_url: https://googledrive.com/host/0B83ZToJ3fGtDVC1DeVVzc3lkc0U/debian-7.5.0-amd64_virtualbox.box
 
 suites:
   - name: boilerplate
