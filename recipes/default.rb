@@ -51,6 +51,7 @@ when 'debian'
     components ['stable/']
     key 'http://emacs.naquadah.org/key.gpg'
     not_if { ::File.exist?("/etc/apt/sources.list.d/emacs-#{node[:lsb][:codename]}.list") }
+    notifies :run, 'execute[apt-get update]', :immediately
   end
   packages.push('emacs-snapshot')
 when 'ubuntu'
