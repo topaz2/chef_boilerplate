@@ -154,6 +154,7 @@ else
     end
   end
 end
+include_recipe 'phantomjs'
 
 # Change git protocol
 execute 'change git protocol' do
