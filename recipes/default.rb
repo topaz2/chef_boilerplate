@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
 # Recipe:: default
@@ -143,12 +144,12 @@ case node[:platform]
 when 'ubuntu'
   package 'nodejs'
   execute 'install npm packages' do
-    command 'npm -g install jshint grunt-cli gfms bower'
+    command 'npm -g install jshint grunt-cli gfms bower karma karma-coverage karma-jasmine karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher'
   end
 else
   include_recipe 'node'
   include_recipe 'nodejs::install_from_binary'
-  %w( jshint grunt-cli gfms bower ).each do |package|
+  %w( jshint grunt-cli gfms bower karma karma-coverage karma-jasmine karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher ).each do |package|
     node_npm package do
       action :install
     end
