@@ -129,7 +129,7 @@ end
 # Workaround for the issue compile fails with lower resource systems
 # @see https://github.com/opscode/dep-selector-libgecode/issues/18
 execute 'install dep-selector-libgecode' do
-  command "USE_SYSTEM_GECODE=1 gem install dep-selector-libgecode"
+  command "export USE_SYSTEM_GECODE=1 && gem install dep-selector-libgecode"
 end
 
 execute 'install gem packages' do
