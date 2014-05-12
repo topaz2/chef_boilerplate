@@ -68,7 +68,7 @@ packages.concat(%w(
   git subversion
   apache2-utils apache2.2-bin apache2.2-common
   mysql-server libmysql++-dev
-  libxml2-dev libxslt-dev libcurl4-gnutls-dev
+  libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
   curl imagemagick graphviz
   lv zsh tree axel expect make g++
   global w3m aspell exuberant-ctags wamerican-huge stunnel4 libnotify-bin
@@ -124,6 +124,12 @@ end
 # Install gem packages
 execute 'install bundler' do
   command 'gem i bundler'
+end
+
+# Workaround for the issue compile fails with lower resource systems
+# @see https://github.com/opscode/dep-selector-libgecode/issues/18
+execute 'install dep-selector-libgecode' do
+  command "USE_SYSTEM_GECODE=1 gem install dep-selector-libgecode"
 end
 
 execute 'install gem packages' do
