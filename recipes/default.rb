@@ -55,10 +55,6 @@ when 'debian'
     notifies :run, 'execute[apt-get update]', :immediately
   end
   packages.push('emacs-snapshot')
-
-  # execute 'apt-get update --fix-missing' do
-  #   command "apt-get update --fix-missing"
-  # end
 when 'ubuntu'
   ppa 'cassou/emacs'
   ppa 'chris-lea/node.js'
