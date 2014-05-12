@@ -86,6 +86,10 @@ packages.each do |pkg|
   end
 end
 
+execute 'apt-get install --fix-missing' do
+  command "apt-get install --fix-missing"
+end
+
 execute 'apt-get install' do
   command "export DEBIAN_FRONTEND=noninteractive && #{apt_command} -q -y install #{dependencies.join(' ')}"
 end
