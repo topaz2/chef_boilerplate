@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
 # Recipe:: default
@@ -51,6 +52,7 @@ when 'debian'
     components ['stable/']
     key 'http://emacs.naquadah.org/key.gpg'
     not_if { ::File.exist?("/etc/apt/sources.list.d/emacs-#{node[:lsb][:codename]}.list") }
+    notifies :run, 'execute[apt-get update]', :immediately
   end
   packages.push('emacs-snapshot')
 when 'ubuntu'
@@ -66,7 +68,7 @@ packages.concat(%w(
   git subversion
   apache2-utils apache2.2-bin apache2.2-common
   mysql-server libmysql++-dev
-  libxml2-dev libxslt-dev libcurl4-gnutls-dev
+  libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
   curl imagemagick graphviz
   lv zsh tree axel expect make g++
   global w3m aspell exuberant-ctags wamerican-huge stunnel4 libnotify-bin
@@ -97,25 +99,24 @@ end
 
 # Clone existing project
 [:app, :docs].each do |type|
-  if node[:boilerplate][type][:repo][:uri]
-    cmd = case node[:boilerplate][type][:repo][:type]
-          when 'git'
-            'git clone'
-          when 'svn'
-            'svn co'
-          else
-            'git clone'
-          end
-    dest = "#{node[:boilerplate][:document_root]}/#{type}"
-    execute "clone #{type} into #{dest}" do
-      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
-      not_if { ::File.exist?(dest) }
-    end
-    directory dest do
-      owner 'www-data'
-      group 'www-data'
-      recursive true
-    end
+  next unless node[:boilerplate][type][:repo][:uri]
+  cmd = case node[:boilerplate][type][:repo][:type]
+        when 'git'
+          'git clone'
+        when 'svn'
+          'svn co'
+        else
+          'git clone'
+        end
+  dest = "#{node[:boilerplate][:document_root]}/#{type}"
+  execute "clone #{type} into #{dest}" do
+    command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
+    not_if { ::File.exist?(dest) }
+  end
+  directory dest do
+    owner 'www-data'
+    group 'www-data'
+    recursive true
   end
 end
 
@@ -141,18 +142,21 @@ end
 case node[:platform]
 when 'ubuntu'
   package 'nodejs'
-  execute 'install npm packages' do
-    command 'npm -g install jshint grunt-cli gfms bower'
-  end
 else
   include_recipe 'node'
   include_recipe 'nodejs::install_from_binary'
-  %w( jshint grunt-cli gfms bower ).each do |package|
-    node_npm package do
-      action :install
-    end
+end
+%w(
+  jshint grunt-cli gfms bower
+  karma karma-coverage karma-jasmine
+  karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher
+  jasmine-jquery
+).each do |package|
+  node_npm package do
+    action :install
   end
 end
+include_recipe 'phantomjs'
 
 # Change git protocol
 execute 'change git protocol' do
