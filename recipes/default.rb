@@ -138,12 +138,6 @@ end
   end
 end
 
-# Daemonize jasmine server
-execute 'start jasmine server' do
-  command "start-stop-daemon -S --pidfile /var/run/jasmine.pid -d #{node[:boilerplate][:app_root]} -x `which rake` -- jasmine -q -s"
-  only_if { ::File.exist?(node[:boilerplate][:app_root]) }
-end
-
 # Install npm packages
 case node[:platform]
 when 'ubuntu'
