@@ -126,12 +126,6 @@ execute 'install bundler' do
   command 'gem i bundler'
 end
 
-# Workaround for the issue compile fails with lower resource systems
-# @see https://github.com/opscode/dep-selector-libgecode/issues/18
-execute 'install dep-selector-libgecode' do
-  command 'export GECODE_BUILD_CONCURRENCY=1 && gem install dep-selector-libgecode'
-end
-
 execute 'install gem packages' do
   command "cd #{node[:boilerplate][:app_root]}; bundle"
   only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
@@ -143,6 +137,12 @@ end
     only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
     not_if { ::File.exist?("#{ENV['HOME']}/.juicer/lib/#{package}") }
   end
+end
+
+# Daemonize jasmine server
+execute 'start jasmine server' do
+  command "start-stop-daemon -S --pidfile /var/run/jasmine.pid -d #{node[:boilerplate][:app_root]} -x `which rake` -- jasmine -q -s"
+  only_if { ::File.exist?(node[:boilerplate][:app_root]) }
 end
 
 # Install npm packages
