@@ -99,25 +99,24 @@ end
 
 # Clone existing project
 [:app, :docs].each do |type|
-  if node[:boilerplate][type][:repo][:uri]
-    cmd = case node[:boilerplate][type][:repo][:type]
-          when 'git'
-            'git clone'
-          when 'svn'
-            'svn co'
-          else
-            'git clone'
-          end
-    dest = "#{node[:boilerplate][:document_root]}/#{type}"
-    execute "clone #{type} into #{dest}" do
-      command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
-      not_if { ::File.exist?(dest) }
-    end
-    directory dest do
-      owner 'www-data'
-      group 'www-data'
-      recursive true
-    end
+  next unless node[:boilerplate][type][:repo][:uri]
+  cmd = case node[:boilerplate][type][:repo][:type]
+        when 'git'
+          'git clone'
+        when 'svn'
+          'svn co'
+        else
+          'git clone'
+        end
+  dest = "#{node[:boilerplate][:document_root]}/#{type}"
+  execute "clone #{type} into #{dest}" do
+    command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
+    not_if { ::File.exist?(dest) }
+  end
+  directory dest do
+    owner 'www-data'
+    group 'www-data'
+    recursive true
   end
 end
 
