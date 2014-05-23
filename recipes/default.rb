@@ -147,7 +147,7 @@ else
   include_recipe 'nodejs::install_from_binary'
 end
 %w(
-  jshint grunt-cli gfms bower
+  grunt-cli gfms bower
   karma karma-coverage karma-jasmine
   karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher
   jasmine-jquery
