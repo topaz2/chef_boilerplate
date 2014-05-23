@@ -28,6 +28,12 @@ default[:boilerplate][:docs] = {
   :port => '80',
   :path => '/'
 }
+default[:boilerplate][:cookbook] = {
+  :repo => {
+    :type => 'git',
+    :uri => nil
+  }
+}
 default[:boilerplate][:gitlab] = {
   :host => 'gitlab.local',
   :port => '8081',
