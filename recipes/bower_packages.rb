@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: bower_packages
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,25 +18,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
-
-# Change git protocol
-execute 'change git protocol' do
-  command 'git config --global url.\'https://\'.insteadOf git://'
-  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
-end
-
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
-  end
+execute 'install bower packages' do
+  command 'bower install --allow-root'
+  cwd node[:boilerplate][:app_root]
+  only_if { ::File.exist?(node[:boilerplate][:app_root]) }
 end

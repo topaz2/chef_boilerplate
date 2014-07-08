@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: project
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,25 +18,25 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
-
-# Change git protocol
-execute 'change git protocol' do
-  command 'git config --global url.\'https://\'.insteadOf git://'
-  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
-end
-
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
+# Clone project from repository
+[:app, :docs].each do |type|
+  next unless node[:boilerplate][type][:repo][:uri]
+  cmd = case node[:boilerplate][type][:repo][:type]
+        when 'git'
+          'git clone'
+        when 'svn'
+          'svn co'
+        else
+          'git clone'
+        end
+  dest = "#{node[:boilerplate][:document_root]}/#{type}"
+  execute "clone #{type} into #{dest}" do
+    command "cd #{node[:boilerplate][:document_root]}; #{cmd} #{node[:boilerplate][type][:repo][:uri]} #{type}"
+    not_if { ::File.exist?(dest) }
+  end
+  directory dest do
+    owner 'www-data'
+    group 'www-data'
+    recursive true
   end
 end

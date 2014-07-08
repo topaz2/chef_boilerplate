@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: npm_packages
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,25 +18,26 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+case node[:platform]
+when 'ubuntu'
+  package 'nodejs'
+when 'debian'
+  # include_recipe 'node'
+  # include_recipe 'nodejs::install_from_source'
+  include_recipe 'nodejs::install_from_binary'
+else
+  # include_recipe 'node'
+  include_recipe 'nodejs::install_from_binary'
+end
+
 %w(
-  apt_fast apt_packages gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
-
-# Change git protocol
-execute 'change git protocol' do
-  command 'git config --global url.\'https://\'.insteadOf git://'
-  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
-end
-
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
+  jshint grunt-cli gfms bower
+  karma karma-coverage karma-jasmine
+  karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher
+  jasmine-jquery
+).each do |package|
+  node_npm package do
+    action :install
   end
 end
+include_recipe 'phantomjs'

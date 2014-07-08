@@ -1,3 +1,13 @@
+default[:boilerplate] = {
+  :apt_fast => true,
+  :apt_packages => true,
+  :gem_packages => true,
+  :npm_packages => true,
+  :bower_packages => true,
+  :apache2 => true,
+  :mysql => true,
+  :apt_command => 'apt-get'
+}
 default[:boilerplate][:country] = 'us'
 default[:boilerplate][:admin] = {
   :mail => "webmaster@#{node[:fqdn]}"

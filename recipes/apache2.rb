@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: apache2
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,25 +18,27 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
+## Setup apache
+include_recipe 'apache2'
 
-# Change git protocol
-execute 'change git protocol' do
-  command 'git config --global url.\'https://\'.insteadOf git://'
-  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
-end
-
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
+%w( proxy proxy_http ).each do |m|
+  apache_module m do
+    enable true
   end
+end
+
+%w( app jenkins redmine ).each do |site|
+  next unless node[:boilerplate][site]
+  template "#{node[:apache][:dir]}/sites-available/#{site}" do
+    source "apache2/#{site}.erb"
+    notifies :restart, 'service[apache2]'
+  end
+  apache_site site do
+    enable true
+  end
+end
+
+template "#{node[:apache][:dir]}/conf.d/boilerplate" do
+  source 'apache2/boilerplate.erb'
+  notifies :restart, 'service[apache2]'
 end

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: mysql
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,25 +18,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
+include_recipe 'database::mysql'
+include_recipe 'mysql::server'
 
-# Change git protocol
-execute 'change git protocol' do
-  command 'git config --global url.\'https://\'.insteadOf git://'
-  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
-end
+mysql_connection_info = {
+  :host => 'localhost',
+  :username => 'root',
+  :password => node[:mysql][:server_root_password]
+}
 
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
+mysql_database_user 'test' do
+  connection mysql_connection_info
+  password 'test'
+  action :grant
+end unless node.chef_environment == 'production'
+
+if node[:mysql][:role]
+  template '/etc/mysql/conf.d/my.cnf' do
+    source "mysql/#{node[:mysql][:role]}/my.cnf.#{node.chef_environment}.erb"
+    notifies :restart, 'mysql_service[default]'
+  end
+else
+  template '/etc/mysql/conf.d/my.cnf' do
+    source "mysql/slave/my.cnf.#{node.chef_environment}.erb"
+    notifies :restart, 'mysql_service[default]'
   end
 end

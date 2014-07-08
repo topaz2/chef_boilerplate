@@ -1,4 +1,8 @@
 [mysqld]
+server-id            = <%= node[:mysql][:server_id] ? node[:mysql][:server_id] : 1 %>
+log-bin
+expire_logs_days     = 14
+
 general_log          = 1
 general_log_file     = /var/log/mysql/mysql.log
 

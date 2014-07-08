@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: apt_fast
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,25 +18,29 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
+case node[:platform]
+when 'debian'
+  package 'apt-spy'
 
-# Change git protocol
-execute 'change git protocol' do
-  command 'git config --global url.\'https://\'.insteadOf git://'
-  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
-end
-
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
+  execute 'choose fastest mirror' do
+    command "apt-spy -s #{node[:boilerplate][:country]} -d stable"
+    not_if { ::File.exist?('/etc/apt/sources.list.d/apt-spy.list') }
   end
+when 'ubuntu'
+  execute 'choose fastest mirror' do
+    command "sed -i 's/us.archive/#{node[:boilerplate][:country]}.archive/g' /etc/apt/sources.list"
+  end
+
+  # Add apt-fast
+  ppa 'apt-fast/stable'
+  package 'apt-fast'
+  package 'aria2'
+  node.set[:boilerplate][:apt_command] = 'apt-fast'
+  template '/etc/apt-fast.conf' do
+    source 'apt-fast/apt-fast.conf.erb'
+  end
+end
+
+execute 'aptitude update && aptitude safe-upgrade -y' do
+  command 'aptitude update && aptitude safe-upgrade -y'
 end
