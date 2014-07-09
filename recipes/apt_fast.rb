@@ -41,6 +41,6 @@ when 'ubuntu'
   end
 end
 
-execute 'aptitude update && aptitude safe-upgrade -y' do
-  command 'aptitude update && aptitude safe-upgrade -y'
+execute 'apt-get update && apt-get upgrade -y' do
+  command 'apt-get update && apt-get upgrade -y'
 end
