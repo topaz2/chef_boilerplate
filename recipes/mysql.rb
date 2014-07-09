@@ -33,6 +33,14 @@ mysql_database_user 'test' do
   action :grant
 end unless node.chef_environment == 'production'
 
+mysql_database_user 'slave' do
+  connection mysql_connection_info
+  password 'slave'
+  host '%'
+  privileges [:select]
+  action :grant
+end
+
 if node[:mysql][:role]
   template '/etc/mysql/conf.d/my.cnf' do
     source "mysql/#{node[:mysql][:role]}/my.cnf.#{node.chef_environment}.erb"
