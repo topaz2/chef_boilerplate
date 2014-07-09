@@ -15,13 +15,18 @@ ruby_block 'store_mysql_master_status' do
   # only execute if mysql is running
   only_if "pgrep 'mysqld$'"
   # subscribe to mysql service to catch restarts
-  subscribes :create, resources(:service => 'mysql')
+  subscribes :create, 'service[mysql]'
 end
 
 ## mysql::slave
 ruby_block 'start_replication' do
   block do
-    dbmasters = search(:node, "mysql_master:true AND mysql_cluster_name:#{node[:mysql][:cluster_name]}")
+    if Chef::Config[:solo]
+      Chef::Log.warn('This recipe uses search. Chef Solo does not support search.')
+      return
+    else
+      dbmasters = search(:node, "mysql_master:true AND mysql_cluster_name:#{node[:mysql][:cluster_name]}")
+    end
 
     if dbmasters.size != 1
       Chef::Log.error("#{dbmasters.size} database masters, cannot set up replication!")
@@ -39,7 +44,7 @@ ruby_block 'start_replication' do
         MASTER_LOG_POS=#{dbmaster.mysql.master_position};
       )
       Chef::Log.info 'Sending start replication command to mysql: '
-      Chef::Log.info "#{command}"
+      Chef::Log.info command
 
       m.query('stop slave')
       m.query(command)
