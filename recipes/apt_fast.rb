@@ -42,5 +42,5 @@ when 'ubuntu'
 end
 
 execute 'apt-get update && apt-get upgrade -y' do
-  command 'apt-get update && apt-get upgrade -y'
+  command 'export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -q -y'
 end
