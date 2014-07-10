@@ -24,7 +24,7 @@ when 'ubuntu'
 when 'debian'
   # include_recipe 'node'
   # include_recipe 'nodejs::install_from_source'
-  include_recipe 'nodejs::install_from_binary'
+  include_recipe 'nodejs::install_from_package'
 else
   # include_recipe 'node'
   include_recipe 'nodejs::install_from_binary'
