@@ -41,14 +41,15 @@ mysql_database_user 'slave' do
   action :grant
 end
 
+environment = node.chef_environment == '_default' ? 'development' : node.chef_environment
 if node[:mysql][:role]
   template '/etc/mysql/conf.d/my.cnf' do
-    source "mysql/#{node[:mysql][:role]}/my.cnf.#{node.chef_environment}.erb"
+    source "mysql/#{node[:mysql][:role]}/my.cnf.#{environment}.erb"
     notifies :restart, 'mysql_service[default]'
   end
 else
   template '/etc/mysql/conf.d/my.cnf' do
-    source "mysql/slave/my.cnf.#{node.chef_environment}.erb"
+    source "mysql/slave/my.cnf.#{environment}.erb"
     notifies :restart, 'mysql_service[default]'
   end
 end
