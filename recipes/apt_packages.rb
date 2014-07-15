@@ -37,20 +37,7 @@ when 'ubuntu'
 end
 
 # Install packages necessary for this project
-packages.concat(%w(
-  ruby1.9.1 ruby1.9.1-dev
-  openjdk-7-jdk
-  git subversion
-  apache2-utils apache2.2-bin apache2.2-common
-  mysql-server libmysql++-dev
-  libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
-  curl imagemagick graphviz
-  lv zsh tree axel expect make g++
-  global w3m aspell exuberant-ctags wamerican-huge stunnel4 libnotify-bin
-  emacs-goodies-el debian-el gettext-el
-  vim
-  iftop iotop iperf nethogs sysstat
-))
+packages.concat(node[:boilerplate][:install_packages])
 
 dependencies = []
 packages.each do |pkg|

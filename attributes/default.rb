@@ -19,6 +19,20 @@ default[:boilerplate][:git] = {
 default[:boilerplate][:project] = {
   :name => 'app'
 }
+default[:boilerplate][:install_packages] = %w(
+  ruby1.9.1 ruby1.9.1-dev
+  openjdk-7-jdk
+  git subversion
+  apache2-utils apache2.2-bin apache2.2-common
+  mysql-server libmysql++-dev
+  libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
+  curl imagemagick graphviz
+  lv zsh tree axel expect make g++
+  global w3m aspell exuberant-ctags wamerican-huge stunnel4 libnotify-bin
+  emacs-goodies-el debian-el gettext-el
+  vim
+  iftop iotop iperf nethogs sysstat
+)
 
 default[:boilerplate][:app] = {
   :repo => {
@@ -56,6 +70,31 @@ default[:boilerplate][:jenkins] = {
   :path => '/',
   :mail => {
     :recipients => nil
+  }
+}
+default[:boilerplate][:backup] = {
+  :schedule => {
+    :archive => {
+      :strategy => 'cron.daily'
+    },
+    :purge => {
+      :strategy => 'cron.daily',
+      :duration => '+90'
+    }
+  },
+  :from => {
+    :host => 'localhost',
+    :port => '22',
+    :path => '/var/local/backup',
+    :user => `whoami`,
+    :key => nil
+  },
+  :to => {
+    :host => 'localhost',
+    :port => '22',
+    :path => '/var/local/backup',
+    :user => `whoami`,
+    :key => nil
   }
 }
 
