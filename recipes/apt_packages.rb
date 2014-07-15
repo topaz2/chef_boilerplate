@@ -32,7 +32,6 @@ when 'debian'
   packages.push('emacs-snapshot')
 when 'ubuntu'
   ppa 'cassou/emacs'
-  ppa 'chris-lea/node.js'
   packages.push('emacs24')
 end
 
