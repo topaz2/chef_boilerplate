@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Cookbook Name:: boilerplate
-# Recipe:: default
+# Recipe:: change_git_protocol
 #
 # Copyright (C) 2014, Jun Nishikawa <topaz2@m0n0m0n0.com>
 #
@@ -18,19 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages change_git_protocol gem_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
-).each do |recipe|
-  include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
-end
-
-# Add additional permissions for vagrant
-%w( www-data ).each do |group|
-  group group do
-    action :modify
-    members 'vagrant'
-    append true
-    only_if 'grep vagrant /etc/passwd'
-  end
+execute 'change git protocol' do
+  command 'git config --global url.\'https://\'.insteadOf git://'
+  only_if { node[:boilerplate][:git][:use_git_protocol] == false }
 end
