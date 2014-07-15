@@ -17,3 +17,6 @@ depends 'node'
 depends 'nodejs'
 depends 'phantomjs'
 depends 'ruby'
+
+supports 'debian'
+supports 'ubuntu'
