@@ -18,18 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-case node[:platform]
-when 'ubuntu'
-  package 'nodejs'
-when 'debian'
-  # include_recipe 'node'
-  # include_recipe 'nodejs::install_from_source'
-  include_recipe 'nodejs::install_from_package'
-else
-  # include_recipe 'node'
-  include_recipe 'nodejs::install_from_binary'
-end
-
+include_recipe 'nodejs::install_from_package'
 %w(
   jshint grunt-cli gfms bower
   karma karma-coverage karma-jasmine
