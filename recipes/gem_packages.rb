@@ -27,7 +27,7 @@ execute 'install gem packages' do
   only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
 end
 
-%w( yui_compressor jslint closure_compiler ).each do |package|
+%w( jslint closure_compiler ).each do |package|
   execute "juicer install #{package}" do
     command "juicer install #{package}"
     only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
