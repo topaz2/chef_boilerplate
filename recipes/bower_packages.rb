@@ -21,5 +21,5 @@
 execute 'install bower packages' do
   command 'bower install --allow-root'
   cwd node[:boilerplate][:app_root]
-  only_if { ::File.exist?(node[:boilerplate][:app_root]) }
+  only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/bower.json") }
 end
