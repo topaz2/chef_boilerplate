@@ -57,5 +57,4 @@ PREFIX=<%= node[:boilerplate][:jenkins][:path] %>
 # --webroot=~/.jenkins/war
 # --prefix=$PREFIX
 
-#JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT"
-JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT --prefix=$PREFIX"
+JENKINS_ARGS="--webroot=/var/cache/jenkins/war --httpPort=$HTTP_PORT --ajp13Port=$AJP_PORT --prefix=$PREFIX --sessionTimeout=525600"
