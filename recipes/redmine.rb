@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Setup redmine server
 package 'redmine'
 package 'libapache2-mod-passenger'
 execute 'ln -sf /usr/share/redmine/public /var/www/redmine' do
@@ -26,4 +27,14 @@ execute 'ln -sf /usr/share/redmine/public /var/www/redmine' do
 end
 execute 'update alternatives' do
   command 'update-alternatives --set ruby /usr/bin/ruby1.9.1; update-alternatives --set gem /usr/bin/gem1.9.1;'
+end
+
+# Setup backup scripts
+template "/etc/#{node[:boilerplate][:backup][:schedule][:archive][:strategy]}/10_backup_redmine.erb" do
+  source "cron/10_backup_redmine.erb"
+  only_if { node[:boilerplate][:backup][:schedule][:archive] }
+end
+template "/etc/#{node[:boilerplate][:backup][:schedule][:purge][:strategy]}/20_purge_redmine_backup.erb" do
+  source "cron/20_purge_redmine_backup.erb"
+  only_if { node[:boilerplate][:backup][:schedule][:purge] }
 end

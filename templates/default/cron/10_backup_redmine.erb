@@ -1,0 +1,13 @@
+#!/bin/bash
+
+for d in db files
+do
+  mkdir -p <%= node[:boilerplate][:backup][:from][:path] %>/redmine/$d
+done
+
+# Backup data
+mysqldump -uroot -p<%= node[:mysql][:server_root_password] %> redmine | gzip > <%= node[:boilerplate][:backup][:from][:path] %>/redmine/db/`date +%y_%m_%d_%H_%M_%S`.gz
+tar czf <%= node[:boilerplate][:backup][:from][:path] %>/redmine/files/`date +%y_%m_%d_%H_%M_%S`.gz /usr/share/redmine/files/
+
+# Backup to remote
+rsync -a <%= node[:boilerplate][:backup][:from][:path] %>/redmine <%= node[:boilerplate][:backup][:to][:user] %>@<%= node[:boilerplate][:backup][:to][:host] %>:<%= node[:boilerplate][:backup][:to][:path] %>
