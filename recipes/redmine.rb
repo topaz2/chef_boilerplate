@@ -31,12 +31,12 @@ end
 
 # Setup backup scripts
 template "/etc/#{node[:boilerplate][:backup][:schedule][:archive][:strategy]}/10_backup_redmine.erb" do
-  source "cron/10_backup_redmine.erb"
+  source 'cron/10_backup_redmine.erb'
   mode '0755'
   only_if { node[:boilerplate][:backup][:schedule][:archive] }
 end
 template "/etc/#{node[:boilerplate][:backup][:schedule][:purge][:strategy]}/20_purge_redmine_backup.erb" do
-  source "cron/20_purge_redmine_backup.erb"
+  source 'cron/20_purge_redmine_backup.erb'
   mode '0755'
   only_if { node[:boilerplate][:backup][:schedule][:purge] }
 end
