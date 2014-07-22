@@ -81,7 +81,9 @@ $ cat nodes/example.json
 ```
 
 ### Stop installing specific applicaiton
+
 e.g.) Stop installing jenkins
+
 ```sh
 $ cat nodes/example.json
 {
