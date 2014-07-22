@@ -6,8 +6,9 @@ do
 done
 
 # Backup data
-mysqldump -uroot -p<%= node[:mysql][:server_root_password] %> redmine | gzip > <%= node[:boilerplate][:backup][:from][:path] %>/redmine/db/`date +%y_%m_%d_%H_%M_%S`.gz
-tar czf <%= node[:boilerplate][:backup][:from][:path] %>/redmine/files/`date +%y_%m_%d_%H_%M_%S`.gz /usr/share/redmine/files/
+FILENAME=`date +%y_%m_%d_%H_%M_%S`.gz
+mysqldump -uroot -p<%= node[:mysql][:server_root_password] %> redmine | gzip > <%= node[:boilerplate][:backup][:from][:path] %>/redmine/db/$FILENAME
+tar czf <%= node[:boilerplate][:backup][:from][:path] %>/redmine/files/$FILENAME -C /usr/share/redmine/files .
 
 # Backup to remote
 rsync -a <%= node[:boilerplate][:backup][:from][:path] %>/redmine <%= node[:boilerplate][:backup][:to][:user] %>@<%= node[:boilerplate][:backup][:to][:host] %>:<%= node[:boilerplate][:backup][:to][:path] %>
