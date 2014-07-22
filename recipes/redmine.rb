@@ -30,15 +30,13 @@ execute 'update alternatives' do
 end
 
 # Setup backup scripts
-template "/etc/#{node[:boilerplate][:backup][:schedule][:archive_local][:strategy]}/10_backup_redmine_local.erb" do
-  source 'cron/10_backup_redmine_local.erb'
-  mode '0755'
-end if node[:boilerplate][:backup][:schedule][:archive_local]
-template "/etc/#{node[:boilerplate][:backup][:schedule][:archive_remote][:strategy]}/30_backup_redmine_remote.erb" do
-  source 'cron/30_backup_redmine_remote.erb'
-  mode '0755'
-end if node[:boilerplate][:backup][:schedule][:archive_remote]
-template "/etc/#{node[:boilerplate][:backup][:schedule][:purge][:strategy]}/20_purge_redmine_backup.erb" do
-  source 'cron/20_purge_redmine_backup.erb'
-  mode '0755'
-end if node[:boilerplate][:backup][:schedule][:purge]
+{
+  :archive_local => '10_backup_redmine_local',
+  :archive_remote => '30_backup_redmine_local',
+  :purge => '20_purge_redmine_backup'
+}.each do |type, script|
+  template "/etc/#{node[:boilerplate][:backup][:schedule][type][:strategy]}/#{script}.erb" do
+    source "cron/#{script}.erb"
+    mode '0755'
+  end if node[:boilerplate][:backup][:schedule][type]
+end
