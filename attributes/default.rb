@@ -86,14 +86,14 @@ default[:boilerplate][:backup] = {
     :host => 'localhost',
     :port => '22',
     :path => '/var/local/backup',
-    :user => `whoami`,
+    :user => `whoami`.chomp,
     :key => nil
   },
   :to => {
     :host => 'localhost',
     :port => '22',
     :path => '/var/local/backup',
-    :user => `whoami`,
+    :user => `whoami`.chomp,
     :key => nil
   }
 }
