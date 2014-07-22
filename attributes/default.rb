@@ -74,12 +74,15 @@ default[:boilerplate][:jenkins] = {
 }
 default[:boilerplate][:backup] = {
   :schedule => {
-    :archive => {
+    :archive_local => {
       :strategy => 'cron.daily'
     },
     :purge => {
       :strategy => 'cron.daily',
       :duration => '+90'
+    }
+    :archive_remote => {
+      :strategy => 'cron.daily',
     }
   },
   :from => {

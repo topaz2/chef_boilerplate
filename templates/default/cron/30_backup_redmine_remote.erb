@@ -1,0 +1,8 @@
+#!/bin/bash
+
+for d in db files
+do
+  mkdir -p <%= node[:boilerplate][:backup][:from][:path] %>/redmine/$d
+done
+
+rsync -a <%= node[:boilerplate][:backup][:from][:path] %>/redmine <%= node[:boilerplate][:backup][:to][:user] %>@<%= node[:boilerplate][:backup][:to][:host] %>:<%= node[:boilerplate][:backup][:to][:path] %>
