@@ -89,14 +89,14 @@ default[:boilerplate][:backup] = {
     :host => 'localhost',
     :port => '22',
     :path => '/var/local/backup',
-    :user => Mixlib::ShellOut.new('whoami').run_command.chomp,
+    :user => node[:current_user],
     :key => nil
   },
   :to => {
     :host => 'localhost',
     :port => '22',
     :path => '/var/local/backup',
-    :user => Mixlib::ShellOut.new('whoami').run_command.chomp,
+    :user => node[:current_user],
     :key => nil
   }
 }
