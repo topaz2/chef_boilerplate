@@ -82,7 +82,7 @@ default[:boilerplate][:backup] = {
       :duration => '+90'
     }
     :archive_remote => {
-      :strategy => 'cron.daily',
+      :strategy => 'cron.daily'
     }
   },
   :from => {
