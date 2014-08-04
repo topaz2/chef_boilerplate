@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-include_recipe 'nodejs::install_from_package'
+include_recipe 'nodejs::nodejs_from_package'
 %w(
   jshint grunt-cli gfms bower
   karma karma-coverage karma-jasmine
