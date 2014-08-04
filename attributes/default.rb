@@ -27,7 +27,7 @@ default[:boilerplate][:install_packages] = %w(
   mysql-server libmysql++-dev
   libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
   curl imagemagick graphviz
-  lv zsh tree axel expect make g++
+  lv zsh tree axel expect make g++ ccache
   global w3m aspell exuberant-ctags wamerican-huge stunnel4 libnotify-bin
   emacs-goodies-el debian-el gettext-el
   vim
