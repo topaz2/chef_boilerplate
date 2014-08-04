@@ -58,13 +58,19 @@
     <hudson.matrix.TextAxis>
       <name>VAGRANT</name>
       <values>
-        <string>1.4</string>
+        <string>stable</string>
       </values>
     </hudson.matrix.TextAxis>
   </axes>
   <builders>
     <hudson.tasks.Shell>
       <command>tools/build/vagrant/pre.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>tools/build/vagrant/main.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>tools/build/vagrant/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <% if node[:boilerplate][:jenkins][:mail][:recipients] %>
