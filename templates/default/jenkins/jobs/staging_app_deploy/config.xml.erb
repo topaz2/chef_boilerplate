@@ -28,9 +28,13 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>bundle
-bundle update
-bundle exec knife solo cook localhost -N staging</command>
+      <command>tools/build/app_deploy/pre.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>tools/build/app_deploy/main.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>tools/build/app_deploy/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
