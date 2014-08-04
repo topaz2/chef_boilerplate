@@ -31,7 +31,9 @@ template '/etc/default/jenkins' do
   notifies :restart, 'service[jenkins]'
 end
 
-%w( staging_app_build staging_app_deploy staging_app_vagrant ).each do |job|
+%w(
+  staging_app_build staging_app_deploy staging_app_vagrant staging_upgrade_dependencies
+).each do |job|
   xml = File.join(Chef::Config[:file_cache_path], "jenkins-jobs-#{job}-config.xml")
   template xml do
     source "jenkins/jobs/#{job}/config.xml.erb"
@@ -60,7 +62,7 @@ end
 
 %w(
   credentials ghprb git-client git github-api github scm-api ssh-credentials anything-goes-formatter
-  ansicolor build-pipeline-plugin
+  ansicolor build-pipeline-plugin extra-columns jobConfigHistory
 ).each do |p|
   jenkins_plugin p
 end

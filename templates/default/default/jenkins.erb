@@ -7,14 +7,13 @@ NAME=jenkins
 JAVA=/usr/bin/java
 
 # arguments to pass to java
-#JAVA_ARGS="-Djava.awt.headless=true"  # Allow graphs etc. to work even when an X server is present
-#JAVA_ARGS="-Xmx256m"
-#JAVA_ARGS="-Djava.net.preferIPv4Stack=true" # make jenkins listen on IPv4 address
+JAVA_ARGS=""
 
 PIDFILE=/var/run/jenkins/jenkins.pid
 
-# user id to be invoked as (otherwise will run as root; not wise!)
+# user and group to be invoked as (default to jenkins)
 JENKINS_USER=jenkins
+JENKINS_GROUP=jenkins
 
 # location of the jenkins war file
 JENKINS_WAR=/usr/share/jenkins/jenkins.war
@@ -37,6 +36,9 @@ JENKINS_LOG=/var/log/jenkins/$NAME.log
 #   reported that Ubuntu's PAM configuration doesn't include pam_limits.so, and as a result the # of file
 #   descriptors are forced to 1024 regardless of /etc/security/limits.conf
 MAXOPENFILES=8192
+
+# address bound to HTTP connector (default 0.0.0.0)
+# HTTP_LISTEN_ADDRESS="0.0.0.0"
 
 # port for HTTP connector (default 8080; disable with -1)
 HTTP_PORT=8080
