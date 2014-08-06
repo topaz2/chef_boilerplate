@@ -14,7 +14,7 @@ default[:boilerplate][:admin] = {
 }
 default[:boilerplate][:document_root] = '/var/www'
 default[:boilerplate][:git] = {
-  :use_git_procotol => true
+  :use_git_protocol => true
 }
 default[:boilerplate][:project] = {
   :name => 'app'
