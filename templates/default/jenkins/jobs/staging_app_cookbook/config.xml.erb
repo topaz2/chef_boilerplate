@@ -37,9 +37,13 @@
   <axes/>
   <builders>
     <hudson.tasks.Shell>
-      <command>bundle
-bundle ex berks update
-bundle ex kitchen test -c `ohai cpu/total`</command>
+      <command>tools/build/app_cookbook/pre.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>tools/build/app_cookbook/main.sh</command>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>tools/build/app_cookbook/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
