@@ -38,7 +38,10 @@ end
   end
 end
 
-template "#{node[:apache][:dir]}/conf.d/boilerplate" do
-  source 'apache2/boilerplate.erb'
+template "#{node[:apache][:dir]}/conf-available/boilerplate.conf" do
+  source 'apache2/boilerplate.conf.erb'
   notifies :restart, 'service[apache2]'
+end
+apache_config 'boilerplate.conf' do
+  enable true
 end
