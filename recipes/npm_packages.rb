@@ -25,8 +25,6 @@ include_recipe 'nodejs::nodejs_from_package'
   karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher
   jasmine-jquery
 ).each do |package|
-  node_npm package do
-    action :install
-  end
+  nodejs_npm package
 end
 include_recipe 'phantomjs'
