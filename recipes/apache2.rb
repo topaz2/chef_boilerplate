@@ -29,8 +29,8 @@ end
 
 %w( app jenkins redmine ).each do |site|
   next unless node[:boilerplate][site]
-  template "#{node[:apache][:dir]}/sites-available/#{site}" do
-    source "apache2/#{site}.erb"
+  template "#{node[:apache][:dir]}/sites-available/#{site}.conf" do
+    source "apache2/#{site}.conf.erb"
     notifies :restart, 'service[apache2]'
   end
   apache_site site do
@@ -42,6 +42,6 @@ template "#{node[:apache][:dir]}/conf-available/boilerplate.conf" do
   source 'apache2/boilerplate.conf.erb'
   notifies :restart, 'service[apache2]'
 end
-apache_config 'boilerplate.conf' do
+apache_config 'boilerplate' do
   enable true
 end
