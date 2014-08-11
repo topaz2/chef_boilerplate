@@ -15,6 +15,7 @@ depends 'jenkins'
 depends 'mysql'
 depends 'nodejs'
 depends 'phantomjs'
+depends 'python'
 depends 'ruby'
 
 supports 'debian'

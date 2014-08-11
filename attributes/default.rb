@@ -2,6 +2,7 @@ default[:boilerplate] = {
   :apt_fast => true,
   :apt_packages => true,
   :gem_packages => true,
+  :pip_packages => true,
   :npm_packages => true,
   :bower_packages => true,
   :apache2 => true,
