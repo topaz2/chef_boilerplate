@@ -19,8 +19,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 %w(
-  apt_fast apt_packages apache2 git gem_packages pip_packages npm_packages bower_packages
-  apache2 mysql redmine jenkins gitlab
+  apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
+  mysql redmine jenkins gitlab
 ).each do |recipe|
   include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
 end
