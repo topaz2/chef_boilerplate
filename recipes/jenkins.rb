@@ -33,6 +33,7 @@ end
 
 %w(
   staging_app_build staging_app_deploy staging_app_vagrant staging_upgrade_dependencies
+  development_app_vagrant
 ).each do |job|
   xml = File.join(Chef::Config[:file_cache_path], "jenkins-jobs-#{job}-config.xml")
   template xml do
