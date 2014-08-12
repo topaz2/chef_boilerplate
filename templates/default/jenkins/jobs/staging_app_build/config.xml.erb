@@ -164,6 +164,15 @@
         <completeBuild>true</completeBuild>
       </threshold>
     </hudson.tasks.BuildTrigger>
+    <hudson.tasks.BuildTrigger>
+      <childProjects>staging_app_package</childProjects>
+      <threshold>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
     <org.jenkinsci.plugins.cloverphp.CloverPHPPublisher plugin="cloverphp@0.3.3">
       <publishHtmlReport>false</publishHtmlReport>
       <xmlLocation>build/logs/clover.xml</xmlLocation>
