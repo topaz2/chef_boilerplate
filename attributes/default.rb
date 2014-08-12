@@ -24,7 +24,6 @@ default[:boilerplate][:install_packages] = %w(
   ruby1.9.1 ruby1.9.1-dev
   openjdk-7-jdk
   git subversion
-  apache2-utils apache2.2-bin apache2.2-common
   mysql-server libmysql++-dev
   libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
   curl imagemagick graphviz
