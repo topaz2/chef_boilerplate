@@ -35,7 +35,7 @@ ruby_block 'start_replication' do
       Chef::Log.info("Using #{dbmaster.name} as master")
 
       m = Mysql.new('localhost', 'root', node[:mysql][:server_root_password])
-      command = %Q(
+      command = %(
       CHANGE MASTER TO
         MASTER_HOST="#{dbmaster.mysql.bind_address}",
         MASTER_USER="repl",

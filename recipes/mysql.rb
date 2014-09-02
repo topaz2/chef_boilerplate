@@ -22,9 +22,9 @@ include_recipe 'database::mysql'
 include_recipe 'mysql::server'
 
 mysql_connection_info = {
-  :host => 'localhost',
-  :username => 'root',
-  :password => node[:mysql][:server_root_password]
+  host: 'localhost',
+  username: 'root',
+  password: node[:mysql][:server_root_password]
 }
 
 mysql_database_user 'test' do

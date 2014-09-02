@@ -31,9 +31,9 @@ end
 
 # Setup backup scripts
 {
-  :archive_local => '10_backup_redmine_local',
-  :archive_remote => '30_backup_redmine_remote',
-  :purge => '20_purge_redmine_backup'
+  archive_local: '10_backup_redmine_local',
+  archive_remote: '30_backup_redmine_remote',
+  purge: '20_purge_redmine_backup'
 }.each do |type, script|
   template "/etc/#{node[:boilerplate][:backup][:schedule][type][:strategy]}/#{script}.erb" do
     source "cron/#{script}.erb"

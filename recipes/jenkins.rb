@@ -31,16 +31,24 @@ template '/etc/default/jenkins' do
   notifies :restart, 'service[jenkins]'
 end
 
-%w(
-  staging_app_build staging_app_deploy staging_app_vagrant staging_upgrade_dependencies
-  development_app_vagrant
-).each do |job|
+# chef_gem 'chef-helpers'
+require 'chef-helpers'
+
+jobs = %w(
+  development staging production
+).each do |environment|
+  %w(
+    app_build app_cookbook app_deploy app_package app_vagrant boilerplate
+  ).map { |type| [environment, type].join('_') }
+end.flatten
+jobs.each do |job|
+  next unless has_template?("jenkins/jobs/#{job}/config.xml.erb")
+
   xml = File.join(Chef::Config[:file_cache_path], "jenkins-jobs-#{job}-config.xml")
   template xml do
     source "jenkins/jobs/#{job}/config.xml.erb"
   end
 
-  # Init jobs for the first time
   jenkins_job job do
     config xml
     not_if { ::File.exist?("#{node[:jenkins][:master][:home]}/jobs/#{job}/config.xml") }
@@ -59,6 +67,11 @@ end
 template "#{node[:jenkins][:master][:home]}/jenkins.model.JenkinsLocationConfiguration.xml" do
   source 'jenkins/jenkins.model.JenkinsLocationConfiguration.xml.erb'
   notifies :restart, 'service[jenkins]'
+end
+
+remote_directory '/usr/local/bin/tools/build/jenkins' do
+  files_mode 0755
+  source 'tools/build/jenkins'
 end
 
 %w(
