@@ -31,16 +31,20 @@ template '/etc/default/jenkins' do
   notifies :restart, 'service[jenkins]'
 end
 
-# chef_gem 'chef-helpers'
 require 'chef-helpers'
 
-jobs = %w(
+jobs = []
+%w(
   development staging production
 ).each do |environment|
   %w(
-    app_build app_cookbook app_deploy app_package app_vagrant boilerplate
-  ).map { |type| [environment, type].join('_') }
-end.flatten
+    app_build app_cookbook app_deploy app_docs app_package app_vagrant boilerplate
+  ).each do |type|
+    log environment
+    log type
+    jobs << [environment, type].join('_')
+  end
+end
 jobs.each do |job|
   next unless has_template?("jenkins/jobs/#{job}/config.xml.erb")
 
