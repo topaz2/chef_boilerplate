@@ -35,12 +35,19 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
+    <jenkins.triggers.ReverseBuildTrigger>
+      <spec></spec>
+      <upstreamProjects>development_app_vagrant, </upstreamProjects>
+      <threshold>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </jenkins.triggers.ReverseBuildTrigger>
     <hudson.triggers.TimerTrigger>
       <spec>@midnight</spec>
     </hudson.triggers.TimerTrigger>
-    <com.cloudbees.jenkins.GitHubPushTrigger>
-      <spec></spec>
-    </com.cloudbees.jenkins.GitHubPushTrigger>
     <org.jenkinsci.plugins.ghprb.GhprbTrigger>
       <spec>*/5 * * * *</spec>
       <adminlist></adminlist>
@@ -58,10 +65,6 @@
         </org.jenkinsci.plugins.ghprb.GhprbBranch>
       </whiteListTargetBranches>
     </org.jenkinsci.plugins.ghprb.GhprbTrigger>
-    <hudson.triggers.SCMTrigger>
-      <spec>H/5 * * * *</spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
-    </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <axes>
