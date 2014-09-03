@@ -31,6 +31,7 @@ template '/etc/default/jenkins' do
   notifies :restart, 'service[jenkins]'
 end
 
+chef_gem 'chef-helpers'
 require 'chef-helpers'
 
 jobs = []
@@ -40,8 +41,6 @@ jobs = []
   %w(
     app_build app_cookbook app_deploy app_docs app_package app_vagrant boilerplate
   ).each do |type|
-    log environment
-    log type
     jobs << [environment, type].join('_')
   end
 end
