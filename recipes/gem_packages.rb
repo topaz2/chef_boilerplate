@@ -23,7 +23,7 @@ execute 'install bundler' do
 end
 
 execute 'install gem packages' do
-  command "cd #{node[:boilerplate][:app_root]}; bundle"
+  command "cd #{node[:boilerplate][:app_root]}; bundle --full-index"
   only_if { ::File.exist?("#{node[:boilerplate][:app_root]}/Gemfile") }
 end
 
