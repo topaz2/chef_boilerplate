@@ -2,7 +2,7 @@
 <hudson>
   <disabledAdministrativeMonitors/>
   <version>1.560</version>
-  <numExecutors>8</numExecutors>
+  <numExecutors><%= node[:boilerplate][:jenkins][:executors] %></numExecutors>
   <mode>NORMAL</mode>
   <useSecurity>true</useSecurity>
   <authorizationStrategy class="hudson.security.FullControlOnceLoggedInAuthorizationStrategy"/>

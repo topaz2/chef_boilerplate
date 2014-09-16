@@ -65,6 +65,7 @@ default[:boilerplate][:gitlab] = {
 }
 default[:boilerplate][:redmine] = false
 default[:boilerplate][:jenkins] = {
+  executors: 2,
   host: 'jenkins.local',
   port: '8080',
   path: '/',
