@@ -16,6 +16,7 @@ depends 'mysql'
 depends 'nodejs'
 depends 'phantomjs'
 depends 'python'
+depends 'redisio'
 depends 'ruby'
 
 supports 'debian'
