@@ -11,11 +11,6 @@
           <description></description>
           <defaultValue>staging</defaultValue>
         </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>CLASS_DOC_SOURCE_URI</name>
-          <description></description>
-          <defaultValue>https://github.com/NetCommons3/NetCommons3.git</defaultValue>
-        </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
   </properties>
@@ -23,7 +18,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url><%= node[:boilerplate][:docs][:repo][:uri] %></url>
+        <url><%= node[:boilerplate][:app][:repo][:uri] %></url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -43,22 +38,49 @@
     <hudson.triggers.TimerTrigger>
       <spec>@midnight</spec>
     </hudson.triggers.TimerTrigger>
+    <com.cloudbees.jenkins.GitHubPushTrigger>
+      <spec></spec>
+    </com.cloudbees.jenkins.GitHubPushTrigger>
+    <org.jenkinsci.plugins.ghprb.GhprbTrigger>
+      <spec>*/5 * * * *</spec>
+      <adminlist></adminlist>
+      <orgslist></orgslist>
+      <cron>*/5 * * * *</cron>
+      <triggerPhrase></triggerPhrase>
+      <onlyTriggerPhrase>false</onlyTriggerPhrase>
+      <useGitHubHooks>true</useGitHubHooks>
+      <permitAll>false</permitAll>
+      <whitelist></whitelist>
+      <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
+      <whiteListTargetBranches>
+        <org.jenkinsci.plugins.ghprb.GhprbBranch>
+          <branch></branch>
+        </org.jenkinsci.plugins.ghprb.GhprbBranch>
+      </whiteListTargetBranches>
+    </org.jenkinsci.plugins.ghprb.GhprbTrigger>
     <hudson.triggers.SCMTrigger>
       <spec>H/5 * * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
     </hudson.triggers.SCMTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
-  <axes/>
+  <axes>
+    <hudson.matrix.TextAxis>
+      <name>VAGRANT</name>
+      <values>
+        <string>stable</string>
+      </values>
+    </hudson.matrix.TextAxis>
+  </axes>
   <builders>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/pre.sh</command>
+      <command>tools/build/boilerplate/pre.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/main.sh</command>
+      <command>tools/build/boilerplate/main.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/post.sh</command>
+      <command>tools/build/boilerplate/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <% if node[:boilerplate][:jenkins][:mail][:recipients] %>
@@ -78,6 +100,6 @@
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
   <executionStrategy class="hudson.matrix.DefaultMatrixExecutionStrategyImpl">
-    <runSequentially>false</runSequentially>
+    <runSequentially>true</runSequentially>
   </executionStrategy>
 </matrix-project>

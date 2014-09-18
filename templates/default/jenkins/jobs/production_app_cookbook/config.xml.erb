@@ -3,27 +3,12 @@
   <actions/>
   <description></description>
   <keepDependencies>false</keepDependencies>
-  <properties>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>ENVIRONMENT</name>
-          <description></description>
-          <defaultValue>staging</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>CLASS_DOC_SOURCE_URI</name>
-          <description></description>
-          <defaultValue>https://github.com/NetCommons3/NetCommons3.git</defaultValue>
-        </hudson.model.StringParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
-  </properties>
+  <properties/>
   <scm class="hudson.plugins.git.GitSCM">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url><%= node[:boilerplate][:docs][:repo][:uri] %></url>
+        <url><%= node[:boilerplate][:cookbook][:repo][:uri] %></url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -40,9 +25,6 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <hudson.triggers.TimerTrigger>
-      <spec>@midnight</spec>
-    </hudson.triggers.TimerTrigger>
     <hudson.triggers.SCMTrigger>
       <spec>H/5 * * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
@@ -52,26 +34,16 @@
   <axes/>
   <builders>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/pre.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_cookbook/pre.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/main.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_cookbook/main.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/post.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_cookbook/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
-  <% if node[:boilerplate][:jenkins][:mail][:recipients] %>
-  <publishers>
-    <hudson.tasks.Mailer>
-      <recipients><%= node[:boilerplate][:jenkins][:mail][:recipients] %></recipients>
-      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
-      <sendToIndividuals>false</sendToIndividuals>
-    </hudson.tasks.Mailer>
-  </publishers>
-  <% else %>
   <publishers/>
-  <% end %>
   <buildWrappers>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper>
       <colorMapName>xterm</colorMapName>

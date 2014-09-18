@@ -6,24 +6,37 @@
   <properties>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
-        <hudson.model.StringParameterDefinition>
-          <name>ENVIRONMENT</name>
+        <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
+          <name>LATEST_TAG</name>
           <description></description>
-          <defaultValue>staging</defaultValue>
-        </hudson.model.StringParameterDefinition>
-        <hudson.model.StringParameterDefinition>
-          <name>CLASS_DOC_SOURCE_URI</name>
-          <description></description>
-          <defaultValue>https://github.com/NetCommons3/NetCommons3.git</defaultValue>
-        </hudson.model.StringParameterDefinition>
+          <uuid>3c639610-a484-4b0d-9ec9-70c769397bd7</uuid>
+          <type>PT_TAG</type>
+          <branch></branch>
+          <tagFilter>*</tagFilter>
+          <sortMode>DESCENDING_SMART</sortMode>
+          <defaultValue></defaultValue>
+        </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+      <maxConcurrentPerNode>1</maxConcurrentPerNode>
+      <maxConcurrentTotal>1</maxConcurrentTotal>
+      <categories>
+        <string>kitchen test</string>
+      </categories>
+      <throttleEnabled>false</throttleEnabled>
+      <throttleOption>project</throttleOption>
+      <matrixOptions>
+        <throttleMatrixBuilds>true</throttleMatrixBuilds>
+        <throttleMatrixConfigurations>false</throttleMatrixConfigurations>
+      </matrixOptions>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url><%= node[:boilerplate][:docs][:repo][:uri] %></url>
+        <url><%= node[:boilerplate][:repo][:uri] %></url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -40,9 +53,6 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <hudson.triggers.TimerTrigger>
-      <spec>@midnight</spec>
-    </hudson.triggers.TimerTrigger>
     <hudson.triggers.SCMTrigger>
       <spec>H/5 * * * *</spec>
       <ignorePostCommitHooks>false</ignorePostCommitHooks>
@@ -52,26 +62,16 @@
   <axes/>
   <builders>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/pre.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/chef_boilerplate/pre.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/main.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/chef_boilerplate/main.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>/usr/local/bin/tools/build/jenkins/app_docs/post.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/chef_boilerplate/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
-  <% if node[:boilerplate][:jenkins][:mail][:recipients] %>
-  <publishers>
-    <hudson.tasks.Mailer>
-      <recipients><%= node[:boilerplate][:jenkins][:mail][:recipients] %></recipients>
-      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
-      <sendToIndividuals>false</sendToIndividuals>
-    </hudson.tasks.Mailer>
-  </publishers>
-  <% else %>
   <publishers/>
-  <% end %>
   <buildWrappers>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper>
       <colorMapName>xterm</colorMapName>
