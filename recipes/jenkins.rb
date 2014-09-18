@@ -79,9 +79,10 @@ remote_directory '/usr/local/bin/tools/build/jenkins' do
 end
 
 %w(
-  credentials git git-client git-parameter github-api github ghprb
-  scm-api ssh-credentials anything-goes-formatter
-  ansicolor build-pipeline-plugin extra-columns jobConfigHistory throttle-concurrents bulk-builder
+  ansicolor anything-goes-formatter bulk-builder build-pipeline-plugin
+  credentials extra-columns
+  git git-client git-parameter github github-api ghprb jobConfigHistory
+  scm-api ssh-credentials role-strategy throttle-concurrents
 ).each do |p|
   jenkins_plugin p
 end
