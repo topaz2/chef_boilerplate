@@ -5,9 +5,9 @@ rvm:
   - 2.1.0
 bundler_args: --without integration development
 script:
-  - bundle exec foodcritic -f any --tags ~FC001 --tags ~FC014 .
-  - bundle exec rspec --color --format progress
-  - bundle exec rubocop
+  - bundle ex foodcritic -f any --tags ~FC001 --tags ~FC014 .
+  - bundle ex rspec --color --format progress
+  - bundle ex rubocop
 notifications:
   email:
     on_success: never  # default: change
