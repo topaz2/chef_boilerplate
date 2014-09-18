@@ -21,6 +21,7 @@
 # Setup redmine server
 package 'redmine'
 package 'libapache2-mod-passenger'
+apache_module 'passenger'
 execute 'ln -sf /usr/share/redmine/public /var/www/redmine' do
   command 'ln -sf /usr/share/redmine/public /var/www/redmine'
   not_if { ::File.exist?("#{node[:boilerplate][:docs_root]}/redmine") }
@@ -35,7 +36,7 @@ end
   archive_remote: '30_backup_redmine_remote',
   purge: '20_purge_redmine_backup'
 }.each do |type, script|
-  template "/etc/#{node[:boilerplate][:backup][:schedule][type][:strategy]}/#{script}.erb" do
+  template "/etc/#{node[:boilerplate][:backup][:schedule][type][:strategy]}/#{script}" do
     source "cron/#{script}.erb"
     mode '0755'
   end if node[:boilerplate][:backup][:schedule][type]
