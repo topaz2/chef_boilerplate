@@ -40,7 +40,7 @@ jobs = []
 ).each do |environment|
   %w(
     app_build app_cookbook app_deploy app_docs app_package app_vagrant
-    boilerplate chef_boilerplate
+    boilerplate chef_boilerplate chef_boilerplate_deploy
   ).each do |type|
     jobs << [environment, type].join('_')
   end
@@ -79,7 +79,7 @@ remote_directory '/usr/local/bin/tools/build/jenkins' do
 end
 
 %w(
-  ansicolor anything-goes-formatter bulk-builder build-pipeline-plugin
+  ansicolor anything-goes-formatter bulk-builder build-pipeline-plugin build-user-vars-plugin
   credentials extra-columns
   git git-client git-parameter github github-api ghprb jobConfigHistory
   scm-api ssh-credentials role-strategy throttle-concurrents
