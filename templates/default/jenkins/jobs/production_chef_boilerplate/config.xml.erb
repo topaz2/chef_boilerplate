@@ -4,20 +4,6 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.model.ParametersDefinitionProperty>
-      <parameterDefinitions>
-        <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
-          <name>LATEST_TAG</name>
-          <description></description>
-          <uuid>3c639610-a484-4b0d-9ec9-70c769397bd7</uuid>
-          <type>PT_TAG</type>
-          <branch></branch>
-          <tagFilter>*</tagFilter>
-          <sortMode>DESCENDING_SMART</sortMode>
-          <defaultValue></defaultValue>
-        </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
-      </parameterDefinitions>
-    </hudson.model.ParametersDefinitionProperty>
     <hudson.plugins.throttleconcurrents.ThrottleJobProperty>
       <maxConcurrentPerNode>1</maxConcurrentPerNode>
       <maxConcurrentTotal>1</maxConcurrentTotal>
@@ -28,9 +14,28 @@
       <throttleOption>project</throttleOption>
       <matrixOptions>
         <throttleMatrixBuilds>true</throttleMatrixBuilds>
-        <throttleMatrixConfigurations>false</throttleMatrixConfigurations>
+        <throttleMatrixConfigurations>true</throttleMatrixConfigurations>
       </matrixOptions>
     </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
+          <name>TAG</name>
+          <description></description>
+          <uuid>8f526c81-9730-4066-9288-a8fd44745029</uuid>
+          <type>PT_TAG</type>
+          <branch></branch>
+          <tagFilter>*</tagFilter>
+          <sortMode>DESCENDING_SMART</sortMode>
+          <defaultValue></defaultValue>
+        </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>TAG</name>
+          <description></description>
+          <defaultValue></defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM">
     <configVersion>2</configVersion>
@@ -66,7 +71,20 @@
       <command>/usr/local/bin/tools/build/jenkins/chef_boilerplate/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger>
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+          <configs>
+            <hudson.plugins.parameterizedtrigger.CurrentBuildParameters/>
+          </configs>
+          <projects>production_chef_boilerplate_deploy</projects>
+          <condition>SUCCESS</condition>
+          <triggerWithNoParameters>false</triggerWithNoParameters>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+  </publishers>
   <buildWrappers>
     <hudson.plugins.ansicolor.AnsiColorBuildWrapper>
       <colorMapName>xterm</colorMapName>
