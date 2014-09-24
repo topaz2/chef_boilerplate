@@ -14,7 +14,7 @@
         <hudson.model.StringParameterDefinition>
           <name>CLASS_DOC_SOURCE_URI</name>
           <description></description>
-          <defaultValue>https://github.com/NetCommons3/NetCommons3.git</defaultValue>
+          <defaultValue><%= node[:boilerplate][:app][:repo][:uri] %></defaultValue>
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>

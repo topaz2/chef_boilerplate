@@ -4,7 +4,7 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties/>
-  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.2.1">
+  <scm class="hudson.plugins.git.GitSCM">
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
@@ -28,10 +28,10 @@
     <hudson.triggers.TimerTrigger>
       <spec>@midnight</spec>
     </hudson.triggers.TimerTrigger>
-    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.8">
+    <com.cloudbees.jenkins.GitHubPushTrigger>
       <spec></spec>
     </com.cloudbees.jenkins.GitHubPushTrigger>
-    <org.jenkinsci.plugins.ghprb.GhprbTrigger plugin="ghprb@1.11.2">
+    <org.jenkinsci.plugins.ghprb.GhprbTrigger>
       <spec>*/5 * * * *</spec>
       <adminlist></adminlist>
       <whitelist></whitelist>
@@ -81,7 +81,7 @@
     </hudson.tasks.Shell>
   </builders>
   <publishers>
-    <hudson.plugins.checkstyle.CheckStylePublisher plugin="checkstyle@3.39">
+    <hudson.plugins.checkstyle.CheckStylePublisher>
       <healthy></healthy>
       <unHealthy></unHealthy>
       <thresholdLimit>low</thresholdLimit>
@@ -90,7 +90,7 @@
       <canRunOnFailed>false</canRunOnFailed>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.56">
+      <thresholds>
         <unstableTotalAll></unstableTotalAll>
         <unstableTotalHigh></unstableTotalHigh>
         <unstableTotalNormal></unstableTotalNormal>
@@ -105,7 +105,7 @@
       <doNotResolveRelativePaths>false</doNotResolveRelativePaths>
       <pattern></pattern>
     </hudson.plugins.checkstyle.CheckStylePublisher>
-    <hudson.plugins.pmd.PmdPublisher plugin="pmd@3.38">
+    <hudson.plugins.pmd.PmdPublisher>
       <healthy></healthy>
       <unHealthy></unHealthy>
       <thresholdLimit>low</thresholdLimit>
@@ -114,7 +114,7 @@
       <canRunOnFailed>false</canRunOnFailed>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.56">
+      <thresholds>
         <unstableTotalAll></unstableTotalAll>
         <unstableTotalHigh></unstableTotalHigh>
         <unstableTotalNormal></unstableTotalNormal>
@@ -129,7 +129,7 @@
       <doNotResolveRelativePaths>true</doNotResolveRelativePaths>
       <pattern></pattern>
     </hudson.plugins.pmd.PmdPublisher>
-    <hudson.plugins.dry.DryPublisher plugin="dry@2.40">
+    <hudson.plugins.dry.DryPublisher>
       <healthy></healthy>
       <unHealthy></unHealthy>
       <thresholdLimit>low</thresholdLimit>
@@ -138,7 +138,7 @@
       <canRunOnFailed>false</canRunOnFailed>
       <useStableBuildAsReference>false</useStableBuildAsReference>
       <useDeltaValues>false</useDeltaValues>
-      <thresholds plugin="analysis-core@1.56">
+      <thresholds>
         <unstableTotalAll></unstableTotalAll>
         <unstableTotalHigh></unstableTotalHigh>
         <unstableTotalNormal></unstableTotalNormal>
@@ -173,7 +173,7 @@
         <completeBuild>true</completeBuild>
       </threshold>
     </hudson.tasks.BuildTrigger>
-    <org.jenkinsci.plugins.cloverphp.CloverPHPPublisher plugin="cloverphp@0.3.3">
+    <org.jenkinsci.plugins.cloverphp.CloverPHPPublisher>
       <publishHtmlReport>false</publishHtmlReport>
       <xmlLocation>build/logs/clover.xml</xmlLocation>
       <disableArchiving>false</disableArchiving>
@@ -184,13 +184,13 @@
       <unhealthyTarget/>
       <failingTarget/>
     </org.jenkinsci.plugins.cloverphp.CloverPHPPublisher>
-    <htmlpublisher.HtmlPublisher plugin="htmlpublisher@1.3">
+    <htmlpublisher.HtmlPublisher>
       <reportTargets/>
     </htmlpublisher.HtmlPublisher>
-    <hudson.plugins.jdepend.JDependRecorder plugin="jdepend@1.2.3">
+    <hudson.plugins.jdepend.JDependRecorder>
       <configuredJDependFile></configuredJDependFile>
     </hudson.plugins.jdepend.JDependRecorder>
-    <hudson.plugins.violations.ViolationsPublisher plugin="violations@0.7.11">
+    <hudson.plugins.violations.ViolationsPublisher>
       <config>
         <suppressions class="sorted-set"/>
         <typeConfigs>
@@ -379,7 +379,7 @@
     </hudson.plugins.violations.ViolationsPublisher>
   </publishers>
   <buildWrappers>
-    <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.3.1">
+    <hudson.plugins.ansicolor.AnsiColorBuildWrapper>
       <colorMapName>xterm</colorMapName>
     </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
   </buildWrappers>
