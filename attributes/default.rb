@@ -25,7 +25,7 @@ default[:boilerplate][:project] = {
   name: 'app'
 }
 
-default[:boilerplate][:recipes] = 
+default[:boilerplate][:recipes] =
   case node.platform
   when 'debian', 'ubuntu'
     %w(
