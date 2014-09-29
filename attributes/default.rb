@@ -24,6 +24,22 @@ default[:boilerplate][:git] = {
 default[:boilerplate][:project] = {
   name: 'app'
 }
+
+default[:boilerplate][:recipes] = 
+  case node.platform
+  when 'debian', 'ubuntu'
+    %w(
+      apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
+      mysql redmine jenkins gitlab
+    )
+  else
+    Chef::Log.warn 'Unsupported platform'
+    %w(
+      git gem_packages pip_packages npm_packages bower_packages
+      mysql redmine jenkins gitlab
+    )
+  end
+
 default[:boilerplate][:install_packages] = %w(
   ruby1.9.1 ruby1.9.1-dev
   openjdk-7-jdk

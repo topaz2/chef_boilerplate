@@ -17,4 +17,5 @@ platforms:
 suites:
   - name: boilerplate
     run_list:
+      - recipe[chef-dk]
       - recipe[boilerplate]

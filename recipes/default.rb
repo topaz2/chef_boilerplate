@@ -18,10 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-%w(
-  apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
-  mysql redmine jenkins gitlab
-).each do |recipe|
+node[:boilerplate][:recipes].each do |recipe|
   include_recipe "boilerplate::#{recipe}" if node[:boilerplate][recipe.to_sym]
 end
 
