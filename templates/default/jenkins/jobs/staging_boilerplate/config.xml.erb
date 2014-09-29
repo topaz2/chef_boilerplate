@@ -74,13 +74,13 @@
   </axes>
   <builders>
     <hudson.tasks.Shell>
-      <command>tools/build/boilerplate/pre.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/boilerplate/pre.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>tools/build/boilerplate/main.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/boilerplate/main.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>tools/build/boilerplate/post.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/boilerplate/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <% if node[:boilerplate][:jenkins][:mail][:recipients] %>

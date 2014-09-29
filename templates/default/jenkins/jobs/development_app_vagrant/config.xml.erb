@@ -87,13 +87,13 @@
   </axes>
   <builders>
     <hudson.tasks.Shell>
-      <command>tools/build/vagrant/pre.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_vagrant/pre.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>tools/build/vagrant/main.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_vagrant/main.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>tools/build/vagrant/post.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_vagrant/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <% if node[:boilerplate][:jenkins][:mail][:recipients] %>

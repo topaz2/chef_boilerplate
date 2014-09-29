@@ -28,13 +28,13 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>tools/build/app_deploy/pre.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_deploy/pre.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>tools/build/app_deploy/main.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_deploy/main.sh</command>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>tools/build/app_deploy/post.sh</command>
+      <command>/usr/local/bin/tools/build/jenkins/app_deploy/post.sh</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>
