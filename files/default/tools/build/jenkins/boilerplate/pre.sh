@@ -12,10 +12,10 @@ cd boilerplate-master
 if [ "$ENVIRONMENT" = "development" ]
 then
   bundle update
-  bundle ex berks update
+  berks update
 else
   bundle install --full-index --jobs=`ohai cpu/total` --without development
-  bundle ex berks install -e development
+  berks install -e development
 fi
 
 vagrant plugin install vagrant-berkshelf --plugin-version '2.0.1'
