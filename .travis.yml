@@ -4,6 +4,8 @@ rvm:
   - 2.0.0
   - 2.1.0
 bundler_args: --without integration development
+cache:
+  - bundler
 script:
   - bundle ex foodcritic -f any --tags ~FC001 --tags ~FC014 .
   - bundle ex rspec --color --format progress
