@@ -1,3 +1,3 @@
 #!/bin/bash -ex
 
-bundle ex kitchen test -c `ohai cpu/total`
+bundle ex kitchen test --destroy=always -c `ohai cpu/total`
