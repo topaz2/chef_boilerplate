@@ -26,7 +26,7 @@ default[:boilerplate][:project] = {
 }
 
 default[:boilerplate][:recipes] =
-  case node.platform
+  case node[:platform]
   when 'debian', 'ubuntu'
     %w(
       apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
