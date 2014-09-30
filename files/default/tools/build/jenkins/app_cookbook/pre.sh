@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-if [ "$ENVIRONMENT" = "development" ]
+if [ "$UPGRADE_DEPENDENCIES" = "true" ]
 then
   bundle update
   berks update
