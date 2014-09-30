@@ -20,10 +20,9 @@
 
 include_recipe 'nodejs::nodejs_from_package'
 %w(
-  jshint grunt-cli gfms bower
-  karma karma-coverage karma-jasmine
-  karma-firefox-launcher karma-chrome-launcher karma-phantomjs-launcher
-  jasmine-jquery
+  bower gfms grunt-cli jasmine-jquery jscs jshint
+  karma karma-chrome-launcher karma-coverage
+  karma-firefox-launcher karma-jasmine karma-phantomjs-launcher
 ).each do |package|
   nodejs_npm package
 end
