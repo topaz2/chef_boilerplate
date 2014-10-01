@@ -41,17 +41,22 @@ default[:boilerplate][:recipes] =
   end
 
 default[:boilerplate][:install_packages] = %w(
-  ruby1.9.1 ruby1.9.1-dev
+  aspell axel
+  ccache curl
+  debian-el
+  emacs-goodies-el expect exuberant-ctags
+  g++ gettext-el git global graphviz
+  iftop imagemagick iotop iperf
+  libcurl4-gnutls-dev libgecode-dev libmysql++-dev libnotify-bin libxml2-dev libxslt-dev lv
+  make mysql-server
+  nethogs nfs-server
   openjdk-7-jdk
-  git subversion
-  mysql-server libmysql++-dev
-  libxml2-dev libxslt-dev libcurl4-gnutls-dev libgecode-dev
-  curl imagemagick graphviz
-  lv zsh tree axel expect make g++ ccache
-  global w3m aspell exuberant-ctags wamerican-huge stunnel4 libnotify-bin
-  emacs-goodies-el debian-el gettext-el
+  ruby1.9.1 ruby1.9.1-dev
+  stunnel4 subversion sysstat
+  tree
   vim
-  iftop iotop iperf nethogs sysstat
+  w3m wamerican-huge
+  zsh
 )
 
 default[:boilerplate][:app] = {
