@@ -25,33 +25,15 @@
   <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers>
-    <hudson.triggers.TimerTrigger>
-      <spec>@midnight</spec>
-    </hudson.triggers.TimerTrigger>
-    <com.cloudbees.jenkins.GitHubPushTrigger plugin="github@1.8">
-      <spec></spec>
-    </com.cloudbees.jenkins.GitHubPushTrigger>
-    <org.jenkinsci.plugins.ghprb.GhprbTrigger plugin="ghprb@1.11.2">
-      <spec>*/5 * * * *</spec>
-      <adminlist></adminlist>
-      <whitelist></whitelist>
-      <orgslist></orgslist>
-      <cron>*/5 * * * *</cron>
-      <triggerPhrase></triggerPhrase>
-      <onlyTriggerPhrase>false</onlyTriggerPhrase>
-      <useGitHubHooks>true</useGitHubHooks>
-      <permitAll>false</permitAll>
-      <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
-      <whiteListTargetBranches>
-        <org.jenkinsci.plugins.ghprb.GhprbBranch>
-          <branch></branch>
-        </org.jenkinsci.plugins.ghprb.GhprbBranch>
-      </whiteListTargetBranches>
-    </org.jenkinsci.plugins.ghprb.GhprbTrigger>
-    <hudson.triggers.SCMTrigger>
-      <spec>H/5 * * * *</spec>
-      <ignorePostCommitHooks>false</ignorePostCommitHooks>
-    </hudson.triggers.SCMTrigger>
+    <hudson.tasks.BuildTrigger>
+      <childProjects>development_app_build</childProjects>
+      <threshold>
+        <name>SUCCESS</name>
+        <ordinal>0</ordinal>
+        <color>BLUE</color>
+        <completeBuild>true</completeBuild>
+      </threshold>
+    </hudson.tasks.BuildTrigger>
   </triggers>
   <concurrentBuild>true</concurrentBuild>
   <axes>
