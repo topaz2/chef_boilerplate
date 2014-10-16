@@ -30,30 +30,31 @@ default[:boilerplate][:recipes] =
   when 'debian', 'ubuntu'
     %w(
       apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
-      mysql redmine jenkins gitlab
+      apache2 mysql redmine jenkins gitlab
     )
   else
     Chef::Log.warn 'Unsupported platform'
     %w(
       git gem_packages pip_packages npm_packages bower_packages
-      mysql redmine jenkins gitlab
+      apache2 mysql redmine jenkins gitlab
     )
   end
 
 default[:boilerplate][:install_packages] = %w(
-  aspell axel
+  ant apache2-mpm-prefork aspell axel
   ccache curl
   debian-el
   emacs-goodies-el expect exuberant-ctags
   g++ gettext-el git global graphviz
   iftop imagemagick iotop iperf
-  libcurl4-gnutls-dev libgecode-dev libmysql++-dev libnotify-bin libxml2-dev libxslt-dev lv
+  libcurl4-gnutls-dev libffi-dev libgecode-dev libmysql++-dev libnotify-bin libxml2-dev libxslt-dev lv
   make mysql-server
   nethogs nfs-server
   openjdk-7-jdk
   ruby1.9.1 ruby1.9.1-dev
   stunnel4 subversion sysstat
   tree
+  unzip
   vim
   w3m wamerican-huge
   zsh
