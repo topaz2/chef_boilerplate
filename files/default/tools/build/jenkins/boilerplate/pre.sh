@@ -7,7 +7,7 @@ wget https://github.com/topaz2/boilerplate/archive/master.zip
 unzip master.zip
 cd boilerplate-master
 
-if [ "$ENVIRONMENT" = "development" ]
+if [ -w "Berksfile.lock" -a "$UPGRADE_DEPENDENCIES" = "true" ]
 then
   bundle update
   berks update

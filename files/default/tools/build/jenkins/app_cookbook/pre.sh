@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-if [ "$UPGRADE_DEPENDENCIES" = "true" ]
+if [ -w "Berksfile.lock" -a "$UPGRADE_DEPENDENCIES" = "true" ]
 then
   bundle update
   berks update

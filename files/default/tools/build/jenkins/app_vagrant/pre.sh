@@ -3,7 +3,7 @@
 vagrant --version
 
 mkdir -p build/logs
-if [ "$ENVIRONMENT" = "development" ]
+if [ -w "Berksfile.lock" -a "$UPGRADE_DEPENDENCIES" = "true" ]
 then
   bundle update
   berks update
