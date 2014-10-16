@@ -50,7 +50,7 @@
   <triggers>
     <jenkins.triggers.ReverseBuildTrigger>
       <spec></spec>
-      <upstreamProjects>development_app_vagrant, </upstreamProjects>
+      <upstreamProjects>development_app_vagrant</upstreamProjects>
       <threshold>
         <name>SUCCESS</name>
         <ordinal>0</ordinal>
@@ -58,23 +58,6 @@
         <completeBuild>true</completeBuild>
       </threshold>
     </jenkins.triggers.ReverseBuildTrigger>
-    <org.jenkinsci.plugins.ghprb.GhprbTrigger>
-      <spec>*/5 * * * *</spec>
-      <adminlist></adminlist>
-      <orgslist></orgslist>
-      <cron>*/5 * * * *</cron>
-      <triggerPhrase></triggerPhrase>
-      <onlyTriggerPhrase>false</onlyTriggerPhrase>
-      <useGitHubHooks>true</useGitHubHooks>
-      <permitAll>false</permitAll>
-      <whitelist></whitelist>
-      <autoCloseFailedPullRequests>false</autoCloseFailedPullRequests>
-      <whiteListTargetBranches>
-        <org.jenkinsci.plugins.ghprb.GhprbBranch>
-          <branch></branch>
-        </org.jenkinsci.plugins.ghprb.GhprbBranch>
-      </whiteListTargetBranches>
-    </org.jenkinsci.plugins.ghprb.GhprbTrigger>
   </triggers>
   <concurrentBuild>false</concurrentBuild>
   <axes>
