@@ -9,10 +9,7 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
-  - name: debian-wheezy-7
-    driver_config:
-      box: debian-wheezy-7
-      box_url: https://googledrive.com/host/0B83ZToJ3fGtDVC1DeVVzc3lkc0U/debian-7.5.0-amd64_virtualbox.box
+  - name: debian-7.4
 
 suites:
   - name: boilerplate
