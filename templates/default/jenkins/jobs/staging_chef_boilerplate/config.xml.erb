@@ -4,19 +4,15 @@
   <description></description>
   <keepDependencies>false</keepDependencies>
   <properties>
-    <hudson.plugins.throttleconcurrents.ThrottleJobProperty>
-      <maxConcurrentPerNode>1</maxConcurrentPerNode>
-      <maxConcurrentTotal>1</maxConcurrentTotal>
-      <categories>
-        <string>kitchen test</string>
-      </categories>
-      <throttleEnabled>true</throttleEnabled>
-      <throttleOption>project</throttleOption>
-      <matrixOptions>
-        <throttleMatrixBuilds>true</throttleMatrixBuilds>
-        <throttleMatrixConfigurations>true</throttleMatrixConfigurations>
-      </matrixOptions>
-    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.BooleanParameterDefinition>
+          <name>UPGRADE_DEPENDENCIES</name>
+          <description></description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
@@ -31,6 +27,19 @@
         </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
+    <hudson.plugins.throttleconcurrents.ThrottleJobProperty>
+      <maxConcurrentPerNode>1</maxConcurrentPerNode>
+      <maxConcurrentTotal>1</maxConcurrentTotal>
+      <categories>
+        <string>kitchen test</string>
+      </categories>
+      <throttleEnabled>true</throttleEnabled>
+      <throttleOption>project</throttleOption>
+      <matrixOptions>
+        <throttleMatrixBuilds>true</throttleMatrixBuilds>
+        <throttleMatrixConfigurations>true</throttleMatrixConfigurations>
+      </matrixOptions>
+    </hudson.plugins.throttleconcurrents.ThrottleJobProperty>
   </properties>
   <scm class="hudson.plugins.git.GitSCM">
     <configVersion>2</configVersion>

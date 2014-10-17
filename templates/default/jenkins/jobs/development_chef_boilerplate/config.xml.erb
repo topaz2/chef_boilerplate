@@ -6,6 +6,15 @@
   <properties>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
+        <hudson.model.BooleanParameterDefinition>
+          <name>UPGRADE_DEPENDENCIES</name>
+          <description></description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
         <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
           <name>LATEST_TAG</name>
           <description></description>
