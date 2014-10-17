@@ -16,4 +16,3 @@ suites:
     run_list:
       - recipe[chef-dk]
       - recipe[boilerplate]
-      - recipe[gitlab]
