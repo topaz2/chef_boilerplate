@@ -22,4 +22,3 @@
 # @see https://github.com/opscode-cookbooks/nginx/pull/201
 node.default[:nginx][:default_site_enabled] = false
 node.default[:gitlab][:listen_port] = node[:boilerplate][:gitlab][:port]
-include_recipe 'gitlab'
