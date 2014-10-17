@@ -18,7 +18,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Workaround for the issue default site port can't be changed
-# @see https://github.com/opscode-cookbooks/nginx/pull/201
-node.default[:nginx][:default_site_enabled] = false
-node.default[:gitlab][:listen_port] = node[:boilerplate][:gitlab][:port]
+if node[:gitlab]
+  # Workaround for the issue default site port can't be changed
+  # @see https://github.com/opscode-cookbooks/nginx/pull/201
+  node.default[:nginx][:default_site_enabled] = false
+  node.default[:gitlab][:listen_port] = node[:boilerplate][:gitlab][:port]
+end
