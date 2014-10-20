@@ -12,7 +12,18 @@ platforms:
   - name: debian-7.4
 
 suites:
-  - name: boilerplate
+  - name: solo
+    run_list:
+      - recipe[boilerplate]
+  - name: full
     run_list:
       - recipe[chef-dk]
+      - recipe[boilerplate::apt_fast]
+      - recipe[nodejs::nodejs_from_package]
+      - recipe[phantomjs]
+      - recipe[python]
+      - recipe[apache2]
+      - recipe[database::mysql]
+      - recipe[mysql::server]
+      - recipe[jenkins::master]
       - recipe[boilerplate]

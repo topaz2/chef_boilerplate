@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-include_recipe 'python'
 %w(
   http://closure-linter.googlecode.com/files/closure_linter-latest.tar.gz
 ).each do |package|

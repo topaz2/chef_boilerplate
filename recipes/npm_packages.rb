@@ -18,7 +18,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-include_recipe 'nodejs::nodejs_from_package'
 %w(
   bower gfms grunt-cli jasmine-jquery jscs jshint
   karma karma-chrome-launcher karma-coverage
@@ -26,4 +25,4 @@ include_recipe 'nodejs::nodejs_from_package'
 ).each do |package|
   nodejs_npm package
 end
-include_recipe 'phantomjs'
+

@@ -18,9 +18,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-include_recipe 'database::mysql'
-include_recipe 'mysql::server'
-
 mysql_connection_info = {
   host: 'localhost',
   username: 'root',
