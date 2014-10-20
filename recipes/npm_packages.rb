@@ -25,4 +25,3 @@
 ).each do |package|
   nodejs_npm package
 end
-
