@@ -27,5 +27,5 @@ $CHANGELOG
   sudo -S su - $BUILD_USER_ID -c "cd $WORKSPACE && git tag -a -m \"$CHANGELOG\" $TAG"
   sudo -S su - $BUILD_USER_ID -c "cd $WORKSPACE && git status"
   sudo -S su - $BUILD_USER_ID -c "cd $WORKSPACE && git push --all -vvv"
-  sudo -S su - $BUILD_USER_ID -c "cd $WORKSPACE && bundle ex knife cookbook site share boilerplate Utilities -u $BUILD_USER_ID"
+  sudo -S su - $BUILD_USER_ID -c "cd $WORKSPACE && knife cookbook site share boilerplate Utilities -u $BUILD_USER_ID"
 fi
