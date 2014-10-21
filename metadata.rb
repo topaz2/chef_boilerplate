@@ -8,6 +8,7 @@ version '0.4.12'
 
 depends 'apt-repo'
 depends 'apache2'
+depends 'chef-dk'
 depends 'chef-server'
 depends 'database'
 depends 'jenkins'
