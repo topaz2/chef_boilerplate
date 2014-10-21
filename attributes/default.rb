@@ -18,9 +18,6 @@ default[:boilerplate][:admin] = {
   mail: "webmaster@#{node[:fqdn]}"
 }
 default[:boilerplate][:document_root] = '/var/www'
-default[:boilerplate][:git] = {
-  use_git_protocol: true
-}
 default[:boilerplate][:project] = {
   name: 'app'
 }
@@ -29,13 +26,13 @@ default[:boilerplate][:recipes] =
   case node[:platform]
   when 'debian', 'ubuntu'
     %w(
-      apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
+      apt_fast apt_packages gem_packages pip_packages npm_packages bower_packages
       apache2 mysql redmine
     )
   else
     Chef::Log.warn 'Unsupported platform'
     %w(
-      git gem_packages pip_packages npm_packages bower_packages
+      gem_packages pip_packages npm_packages bower_packages
       apache2 mysql redmine
     )
   end
