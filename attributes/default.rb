@@ -30,13 +30,13 @@ default[:boilerplate][:recipes] =
   when 'debian', 'ubuntu'
     %w(
       apt_fast apt_packages git gem_packages pip_packages npm_packages bower_packages
-      apache2 mysql redmine jenkins gitlab
+      apache2 mysql redmine
     )
   else
     Chef::Log.warn 'Unsupported platform'
     %w(
       git gem_packages pip_packages npm_packages bower_packages
-      apache2 mysql redmine jenkins gitlab
+      apache2 mysql redmine
     )
   end
 
@@ -84,21 +84,7 @@ default[:boilerplate][:cookbook] = {
     uri: nil
   }
 }
-default[:boilerplate][:gitlab] = {
-  host: 'gitlab.local',
-  port: '8081',
-  path: '/'
-}
 default[:boilerplate][:redmine] = false
-default[:boilerplate][:jenkins] = {
-  executors: 4,
-  host: 'jenkins.local',
-  port: '8080',
-  path: '/',
-  mail: {
-    recipients: nil
-  }
-}
 default[:boilerplate][:backup] = {
   schedule: {
     archive_local: {

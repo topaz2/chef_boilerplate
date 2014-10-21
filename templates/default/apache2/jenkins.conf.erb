@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-  ServerName <%= node[:boilerplate][:jenkins][:host] %>
+  ServerName <%= node[:boilerplate_jenkins][:host] %>
   ServerAdmin webmaster@localhost
   <Proxy *>
     Order deny,allow
@@ -7,7 +7,7 @@
   </Proxy>
   ProxyRequests Off
   ProxyPreserveHost on
-  ProxyPass        <%= node[:boilerplate][:jenkins][:path] %> http://localhost:8080<%= node[:boilerplate][:jenkins][:path] %> nocanon
-  ProxyPassReverse <%= node[:boilerplate][:jenkins][:path] %> http://localhost:8080<%= node[:boilerplate][:jenkins][:path] %>
+  ProxyPass        <%= node[:boilerplate_jenkins][:path] %> http://localhost:8080<%= node[:boilerplate_jenkins][:path] %> nocanon
+  ProxyPassReverse <%= node[:boilerplate_jenkins][:path] %> http://localhost:8080<%= node[:boilerplate_jenkins][:path] %>
   AllowEncodedSlashes NoDecode
 </VirtualHost>
