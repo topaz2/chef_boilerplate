@@ -41,6 +41,7 @@ when 'ubuntu'
   end
 end
 
-execute 'apt-get update && apt-get upgrade -y' do
-  command 'export DEBIAN_FRONTEND=noninteractive && apt-get update && apt-get upgrade -q -y'
+execute 'apt-get update' do
+  action :nothing
+  notifies :run, 'execute[apt-get-update]', :immediately
 end
