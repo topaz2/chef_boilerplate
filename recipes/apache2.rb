@@ -25,7 +25,7 @@
   end
 end
 
-%w( app jenkins redmine ).each do |site|
+%w( app redmine ).each do |site|
   next unless node[:boilerplate][site]
   template "#{node[:apache][:dir]}/sites-available/#{site}.conf" do
     source "apache2/#{site}.conf.erb"

@@ -20,10 +20,7 @@ platforms:
       - recipe[boilerplate::apt_fast]
 
 suites:
-  - name: solo
-    run_list:
-      - recipe[boilerplate]
-  - name: full
+  - name: default
     run_list:
       - recipe[chef-dk]
       - recipe[boilerplate::apt_fast]
@@ -33,5 +30,4 @@ suites:
       - recipe[apache2]
       - recipe[database::mysql]
       - recipe[mysql::server]
-      - recipe[jenkins::master]
       - recipe[boilerplate]
