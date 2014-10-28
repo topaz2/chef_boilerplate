@@ -13,7 +13,7 @@ platforms:
       - recipe[apt]
       - recipe[apt-repo]
       - recipe[boilerplate::apt_fast]
-  - name: debian-7.4
+  - name: debian-7.6
     run_list:
       - recipe[apt]
       - recipe[apt-repo]
