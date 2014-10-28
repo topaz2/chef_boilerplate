@@ -34,3 +34,7 @@ end
     not_if { ::File.exist?("#{ENV['HOME']}/.juicer/lib/#{package}") }
   end
 end
+
+%w( knife-solo ).each do |package|
+  chef_gem package
+end
