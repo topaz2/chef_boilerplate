@@ -6,7 +6,6 @@ description 'Installs/Configures boilerplate'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version '0.5.1'
 
-depends 'apt-repo'
 depends 'apache2'
 depends 'chef-dk'
 depends 'chef-server'
