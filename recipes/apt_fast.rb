@@ -36,6 +36,7 @@ when 'ubuntu'
   apt_repository 'apt-fast' do
     uri 'ppa:apt-fast/stable'
     distribution node[:lsb][:codename]
+    notifies :run, 'execute[apt-get-update]', :immediately
   end
   package 'apt-fast'
   package 'aria2'
