@@ -19,6 +19,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ## Setup apache
+include_recipe 'apache2'
 %w( proxy proxy_http ).each do |m|
   apache_module m do
     enable true

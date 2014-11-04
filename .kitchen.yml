@@ -18,7 +18,7 @@ platforms:
       - recipe[boilerplate::apt_fast]
 
 suites:
-  - name: default
+  - name: max
     run_list:
       - recipe[chef-dk]
       - recipe[boilerplate::apt_fast]
@@ -28,4 +28,7 @@ suites:
       - recipe[apache2]
       - recipe[database::mysql]
       - recipe[mysql::server]
+      - recipe[boilerplate]
+  - name: min
+    run_list:
       - recipe[boilerplate]
