@@ -30,13 +30,15 @@ when 'debian'
 when 'ubuntu'
   execute 'choose fastest mirror' do
     command "sed -i 's/us.archive/#{node[:boilerplate][:country]}.archive/g' /etc/apt/sources.list"
-    notifies :run, 'execute[apt-get-update]', :immediately
   end
 
   # Add apt-fast
   apt_repository 'apt-fast' do
     uri 'ppa:apt-fast/stable'
     distribution node[:lsb][:codename]
+  end
+  execute 'apt-get update' do
+    action :nothing
     notifies :run, 'execute[apt-get-update]', :immediately
   end
   package 'apt-fast'
