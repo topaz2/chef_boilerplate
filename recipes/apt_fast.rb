@@ -25,7 +25,7 @@ when 'debian'
   execute 'choose fastest mirror' do
     command "apt-spy -s #{node[:boilerplate][:country]} -d stable"
     not_if { ::File.exist?('/etc/apt/sources.list.d/apt-spy.list') }
-    notifies :run, 'execute[apt-get-update]', :immediately
+    notifies :run, 'execute[apt-get update]', :immediately
   end
 when 'ubuntu'
   execute 'choose fastest mirror' do
@@ -39,13 +39,13 @@ when 'ubuntu'
   end
   execute 'apt-get update' do
     action :nothing
-    notifies :run, 'execute[apt-get-update]', :immediately
+    notifies :run, 'execute[apt-get update]', :immediately
   end
   package 'apt-fast'
   package 'aria2'
   node.set[:boilerplate][:apt_command] = 'apt-fast'
   template '/etc/apt-fast.conf' do
     source 'apt-fast/apt-fast.conf.erb'
-    notifies :run, 'execute[apt-get-update]', :immediately
+    notifies :run, 'execute[apt-get update]', :immediately
   end
 end
