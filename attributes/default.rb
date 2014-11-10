@@ -5,6 +5,7 @@ default[:boilerplate] = {
   },
   apt_fast: true,
   apt_packages: true,
+  chef_dk: true,
   gem_packages: true,
   pip_packages: true,
   npm_packages: true,
@@ -26,7 +27,7 @@ default[:boilerplate][:recipes] =
   case node[:platform]
   when 'debian', 'ubuntu'
     %w(
-      apt_fast apt_packages gem_packages pip_packages npm_packages bower_packages
+      apt_fast apt_packages chef_dk gem_packages pip_packages npm_packages bower_packages
       apache2 mysql redmine
     )
   else
