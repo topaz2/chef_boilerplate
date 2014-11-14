@@ -33,7 +33,7 @@ default[:boilerplate][:recipes] =
   else
     Chef::Log.warn 'Unsupported platform'
     %w(
-      gem_packages pip_packages npm_packages bower_packages
+      gem_packages pip_packages bower_packages
       apache2 mysql redmine
     )
   end

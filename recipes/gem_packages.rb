@@ -20,6 +20,7 @@
 
 execute 'install bundler' do
   command 'gem i bundler'
+  not_if 'which bundle'
 end
 
 execute 'install gem packages' do
